@@ -78,8 +78,8 @@ data1 = data.frame(h = hvals, insta = rowMeans(result), sd = apply(result,1,std)
 plot1 = ggplot(data1, aes(x=h, y=insta)) +
   geom_point() +
   geom_line() +
-  labs(y = "Instability", x = "h")+theme_bw()+
-  theme(text = element_text(size=8))
+  labs(y = "Instability", x = "h", title="Setting 1")+theme_bw()+
+  theme(text = element_text(size=8),plot.title = element_text(hjust = 0.5))
 
 x = rnorm(n)
 x[1:(n * 0.15)] = rnorm(n * 0.15, 5)
@@ -103,24 +103,8 @@ data2 = data.frame(h = hvals, insta = rowMeans(result), sd = apply(result,1,std)
 plot2 = ggplot(data2, aes(x=h, y=insta)) +
   geom_point() +
   geom_line() +
-  labs(y = "Instability", x = "h")+theme_bw()+
-  theme(text = element_text(size=8))
-
-x1 = rnorm(n)
-x1[1:(n*0.1)] = rnorm(n*0.1, 10);
-x1[(n*0.1+1):(n*0.2)] = rnorm(n*0.1, -10)
-x2 = rnorm(n)
-x2[1:(n*0.1)] = rnorm(n*0.1, 10);
-x2[(n*0.1+1):(n*0.2)] = rnorm(n*0.1, -10)
-x = cbind(x1,x2)
-
-bootstrap_result = bootstrap_insta(x,alpha_list = seq(0.5,0.95,by=0.05),q_list=2)
-data3 = data.frame(h = hvals, insta = as.vector(bootstrap_result$means), sd = as.vector(bootstrap_result$sds))
-plot3 = ggplot(data3, aes(x=h, y=insta)) +
-  geom_point() +
-  geom_line() +
-  labs(y = "Instability", x = "h")+ theme_bw()+
-  theme(text = element_text(size=8))
+  labs(y = "Instability", x = "h",, title="Setting 2")+theme_bw()+
+  theme(text = element_text(size=8),plot.title = element_text(hjust = 0.5))
 
 x1 = rnorm(n)
 x1[1:(n * 0.15)] = rnorm(n * 0.15, 5)
@@ -131,12 +115,81 @@ x2[(n * 0.15 + 1):(n * 0.15 + n * 0.05)] = rnorm(n * 0.05, 10^3)
 x = cbind(x1,x2)
 
 bootstrap_result = bootstrap_insta(x,alpha_list = seq(0.5,0.95,by=0.05),q_list=2)
+data3 = data.frame(h = hvals, insta = as.vector(bootstrap_result$means), sd = as.vector(bootstrap_result$sds))
+plot3 = ggplot(data3, aes(x=h, y=insta)) +
+  geom_point() +
+  geom_line() +
+  labs(y = "Instability", x = "h", title="Setting 3")+ theme_bw()+
+  theme(text = element_text(size=8),plot.title = element_text(hjust = 0.5))
+
+p = 500
+
+generate_corr <- function(CN,p){
+  Lambda = rep(0,p)
+  Lambda[1] = 1
+  Lambda[p] = CN
+  Lambda[2:(p-1)] = runif(p-2,1,CN)
+  Lambda[2:(p-1)] = sort(Lambda[2:(p-1)])
+  Y = matrix(rnorm(p*p),p)
+  svd_result = svd(Y)
+  U = svd_result$v
+  Sigma0 = U%*%diag(Lambda)%*%t(U)
+  sd_Sigma0 = sqrt(diag(Sigma0))
+  R0 = diag(sd_Sigma0^{-1})%*%Sigma0%*%diag(sd_Sigma0^{-1})
+  while(cond(R0)<CN-0.1 | cond(R0)>CN+0.1){
+    eig_result = eigen(R0)
+    Lambda = eig_result$values
+    U = eig_result$vectors
+    Lambda[1] = CN*Lambda[p]
+    R0 = U%*%diag(Lambda)%*%t(U)
+    sd_R0 = sqrt(diag(R0))
+    R0 = diag(sd_R0^{-1})%*%R0%*%diag(sd_R0^{-1})
+  }
+  eig_result = eigen(R0)
+  Lambda = eig_result$values
+  U = eig_result$vectors
+  return(list(R0=R0,U=U,Lambda=Lambda))
+}
+
+control_CN <- function(x, index, CN){
+  Sigmahat = cov(x[index, ])
+  d = eigen(Sigmahat)$values
+  Lambda_max = max(d)
+  Lambda_min = min(d)
+  if(Lambda_max <= CN*Lambda_min){
+    return(Sigmahat)
+  }else{
+    rho = (Lambda_max-CN*Lambda_min)/(CN-1+Lambda_max-CN*Lambda_min)
+    print(rho)
+    Sigmahat = rho*diag(dim(x)[2])+(1-rho)*Sigmahat
+    return(Sigmahat)
+  }
+}
+
+CN = 50
+n = 300
+corr_result = generate_corr(CN,p)
+x <- mvrnorm(n,rep(0,p),corr_result$R0)
+index_opt<- 1:60
+Sigma_inv = solve(corr_result$R0)
+for(j in index_opt){
+  if(j<=45){
+    dir_index = p
+    direction = corr_result$U[,dir_index]
+    x[j,] <- x[j,]+50*direction
+  }else{
+    dir_index = p-1
+    direction = corr_result$U[,dir_index]
+    x[j,] <- x[j,]+5000*direction
+  }
+}
+
+bootstrap_result = bootstrap_insta(x,alpha_list = seq(0.5,0.95,by=0.05),q_list=2)
 data4 = data.frame(h = hvals, insta = as.vector(bootstrap_result$means), sd = as.vector(bootstrap_result$sds))
 plot4 = ggplot(data4, aes(x=h, y=insta)) +
   geom_point() +
   geom_line() +
-  labs(y = "Instability", x = "h")+ theme_bw()+
-  theme(text = element_text(size=8))
-
+  labs(y = "Instability", x = "h", title="Setting 4")+ theme_bw()+
+  theme(text = element_text(size=8),plot.title = element_text(hjust = 0.5))
 
 grid.arrange(plot1, plot2,plot3, plot4, nrow=2, ncol=2)
