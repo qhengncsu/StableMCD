@@ -1,3 +1,7 @@
+run generate_figure_1.R for generating figure 1 in the paper
+
+run generate_figure_appendix.R for generating figure 1 in the supplement
+
 run generate_figure_2.R for generating figure 2 
 
 run analysis_fruit.R for reproducing the fruit spectral data analysis
