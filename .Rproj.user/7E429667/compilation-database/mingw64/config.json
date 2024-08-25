@@ -15,7 +15,7 @@
         "-IC:/rtools44/x86_64-w64-mingw32.static.posix/bin/../lib/gcc/x86_64-w64-mingw32.static.posix/13.2.0/../../../../include",
         "-IC:/rtools44/x86_64-w64-mingw32.static.posix/bin/../lib/gcc/x86_64-w64-mingw32.static.posix/13.2.0/include-fixed",
         "-include",
-        "C:/Users/Qiang/Desktop/StableMCD/.Rproj.user/7E429667/compilation-database/mingw64/cpp-definitions.h"
+        "C:/Users/Qiang/Documents/StableMCD/.Rproj.user/7E429667/compilation-database/mingw64/cpp-definitions.h"
     ],
     "pch": "RcppArmadillo",
     "is_cpp": true,
