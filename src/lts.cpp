@@ -126,7 +126,7 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
   insta_sds = arma::stddev(instas, 0, 1);
   double best_alpha = alphas(insta_means.index_min());
   return List::create(Named("best_alpha") = best_alpha,
-                      Named("insta_means") = insta_medians,
+                      Named("insta_means") = insta_means,
                       Named("insta_sds") = insta_sds,
                       Named("alphas") = alphas);
 }
