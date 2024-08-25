@@ -77,7 +77,7 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
   arma::mat X2 = arma::mat(X);
   arma::colvec y1 = y;
   arma::colvec y2 = y;
-  arma::colvec insta_medians = arma::zeros<arma::colvec>(nalpha);
+  arma::colvec insta_means = arma::zeros<arma::colvec>(nalpha);
   arma::colvec insta_sds = arma::zeros<arma::colvec>(nalpha);
   arma::mat instas = arma::mat(nalpha, B);
   std::uniform_int_distribution<int> dis(0, n-1);
