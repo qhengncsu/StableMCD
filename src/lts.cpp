@@ -122,7 +122,7 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
     }
     Rcout << "Bootstrap pair " << b+1 << " completed!" << std::endl;
   }
-  insta_means = arma::median(instas,1);
+  insta_means = arma::mean(instas,1);
   insta_sds = arma::stddev(instas, 0, 1);
   double best_alpha = alphas(insta_means.index_min());
   return List::create(Named("best_alpha") = best_alpha,
