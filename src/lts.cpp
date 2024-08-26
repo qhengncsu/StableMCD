@@ -118,7 +118,6 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
       y1(i) = y(index1);
       y2(i) = y(index2);
     }
-    Rcout << norm(y1-y2,2) << endl;
     List L1 = lts(X1,y1,alphas);
     List L2 = lts(X2,y2,alphas);
     List betas1 = L1["betas"];
@@ -133,7 +132,6 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
       is_outlier2 = arma::ones<arma::ivec>(n);
       beta1 = as<arma::vec>(wrap(betas1[i]));
       beta2 = as<arma::vec>(wrap(betas2[i]));
-      
       res1 = abs(y - X * beta1(arma::span(1,p)) - beta1[0]);
       res2 = abs(y - X * beta2(arma::span(1,p)) - beta2[0]);
       order1 = arma::sort_index(res1, "ascend");
@@ -145,7 +143,9 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
     }
     Rcout << "Bootstrap pair " << b+1 << " completed!" << std::endl;
   }
-  insta_means = arma::mean(instas,1);
+  for(int i = 0; i<nalpha; i++){
+    insta_means(i) = trimean(instas.row(i).as_col());
+  }
   insta_sds = arma::stddev(instas, 0, 1);
   double best_alpha = alphas(insta_means.index_min());
   return List::create(Named("best_alpha") = best_alpha,
