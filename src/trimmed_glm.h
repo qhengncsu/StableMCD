@@ -6,6 +6,7 @@
 #include <boost/random.hpp>
 
 Rcpp::NumericVector proj_depth(const arma::mat& X, const arma::mat& data, int style);
+double trimean(arma::vec x);
 
 // extern "C" { 
 void ProjectionDepth(double *points, double *objects, int *numObjects,
