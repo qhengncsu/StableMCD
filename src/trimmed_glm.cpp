@@ -2,7 +2,6 @@
 using namespace Rcpp;
 using namespace std;
 using namespace arma;
-extern boost::random::rand48 rEngine;
 
 inline double logit_inverse(double x) { return 1.0/(1.0 + std::exp(-x)); }
 inline double log_inverse(double x) { return std::exp(x); }
@@ -152,10 +151,15 @@ List bootstrap_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec
   arma::uvec order2 = arma::zeros<arma::uvec>(n);
   arma::ivec is_outlier1, is_outlier2;
   int h;
+  std::random_device rd;
+  std::mt19937 gen(rd());
   for (int b = 0; b < B; b++){
     for (int i = 0; i<n; i++){
-      index1 = dis(rEngine);
-      index2 = dis(rEngine);
+      index1 = dis(gen);
+      index2 = dis(gen);
+      while (index1==index2){
+        index2 = dis(gen);
+      }
       X1.row(i) = X.row(index1);
       X2.row(i) = X.row(index2);
       y1(i) = y(index1);
@@ -186,7 +190,9 @@ List bootstrap_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec
     }
     Rcout << "Bootstrap pair " << b+1 << " completed!" << std::endl;
   }
-  insta_means = arma::mean(instas,1);
+  for(int i = 0; i<nalpha; i++){
+    insta_means(i) = trimean(instas.row(i).as_col());
+  }
   insta_sds = arma::stddev(instas, 0, 1);
   double best_alpha = alphas(insta_means.index_min());
   return List::create(Named("best_alpha") = best_alpha,
