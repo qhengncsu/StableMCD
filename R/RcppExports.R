@@ -9,6 +9,10 @@ lts <- function(X, y, alphas) {
     .Call(`_StableMCD_lts`, X, y, alphas)
 }
 
+trimean <- function(x) {
+    .Call(`_StableMCD_trimean`, x)
+}
+
 bootstrap_lts <- function(X, y, alphas, B = 50L) {
     .Call(`_StableMCD_bootstrap_lts`, X, y, alphas, B)
 }

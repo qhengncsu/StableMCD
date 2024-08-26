@@ -36,6 +36,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// trimean
+double trimean(arma::vec x);
+RcppExport SEXP _StableMCD_trimean(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(trimean(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // bootstrap_lts
 List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec& alphas, int B);
 RcppExport SEXP _StableMCD_bootstrap_lts(SEXP XSEXP, SEXP ySEXP, SEXP alphasSEXP, SEXP BSEXP) {
@@ -126,6 +137,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_StableMCD_proj_depth", (DL_FUNC) &_StableMCD_proj_depth, 2},
     {"_StableMCD_lts", (DL_FUNC) &_StableMCD_lts, 3},
+    {"_StableMCD_trimean", (DL_FUNC) &_StableMCD_trimean, 1},
     {"_StableMCD_bootstrap_lts", (DL_FUNC) &_StableMCD_bootstrap_lts, 4},
     {"_StableMCD_rcpp_hello_world", (DL_FUNC) &_StableMCD_rcpp_hello_world, 0},
     {"_StableMCD_irls_glm", (DL_FUNC) &_StableMCD_irls_glm, 6},

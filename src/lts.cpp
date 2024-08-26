@@ -68,16 +68,17 @@ double get_insta(const arma::ivec& is_outlier1, const arma::ivec& is_outlier2, i
   return pX*(1-pX)/(c*(1-c))-1;
 }
 
+// [[Rcpp::export]]
 double trimean(arma::vec x) {
   // Sort the vector
-  x = arma::sort(x);
+  arma::vec x_sorted = arma::sort(x);
   
-  int n = x.n_elem;
+  int n = x_sorted.n_elem;
   
   // Compute quartiles
-  double q1 = x(std::floor(n * 0.25));
-  double q2 = x(std::floor(n * 0.5));  // Median
-  double q3 = x(std::floor(n * 0.75));
+  double q1 = x_sorted(std::floor(n * 0.25));
+  double q2 = x_sorted(std::floor(n * 0.5));  // Median
+  double q3 = x_sorted(std::floor(n * 0.75));
   
   // Compute Trimean
   double trimean = (q1 + 2*q2 + q3) / 4.0;
@@ -140,7 +141,8 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
     Rcout << "Bootstrap pair " << b+1 << " completed!" << std::endl;
   }
   for(int i = 0; i<nalpha ; i++){
-    insta_means(i) = trimean(instas.row(i));
+    arma::vec row = instas.row(i).as_col();
+    insta_means(i) = trimean(row);
   }
   insta_sds = arma::stddev(instas, 0, 1);
   double best_alpha = alphas(insta_means.index_min());
