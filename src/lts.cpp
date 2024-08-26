@@ -1,7 +1,6 @@
 #include "lts.h"
 using namespace Rcpp;
 using namespace std;
-extern boost::random::rand48 rEngine;
 
 // [[Rcpp::export]]
 List lts(const arma::mat& X, const arma::colvec& y, const arma::colvec& alphas){
@@ -13,7 +12,7 @@ List lts(const arma::mat& X, const arma::colvec& y, const arma::colvec& alphas){
   int h = 0;
   arma::uvec init_index = arma::zeros<arma::uvec>(floor(0.5*n));
   arma::uvec order = arma::zeros<arma::uvec>(n);
-  arma::colvec depths = proj_depth(Xy, Xy, 2);
+  arma::colvec depths = proj_depth(Xy, Xy, 1);
   order = arma::sort_index(depths, "descend");
   init_index = order.head(floor(0.5*n));
   arma::mat X_with_intercept = arma::join_horiz(arma::ones(n), X);
@@ -59,6 +58,7 @@ double Choose(int n, int k){
   return result;
 }
 
+// [[Rcpp::export]]
 double get_insta(const arma::ivec& is_outlier1, const arma::ivec& is_outlier2, int h){
   double n = is_outlier1.n_elem;
   double pX = sum(abs(is_outlier1-is_outlier2))/n;
@@ -104,15 +104,21 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
   arma::uvec order2 = arma::zeros<arma::uvec>(n);
   arma::ivec is_outlier1, is_outlier2;
   int h;
+  std::random_device rd;
+  std::mt19937 gen(rd());
   for (int b = 0; b < B; b++){
     for (int i = 0; i<n; i++){
-      index1 = dis(rEngine);
-      index2 = dis(rEngine);
+      index1 = dis(gen);
+      index2 = dis(gen);
+      while (index1==index2){
+        index2 = dis(gen);
+      }
       X1.row(i) = X.row(index1);
       X2.row(i) = X.row(index2);
       y1(i) = y(index1);
       y2(i) = y(index2);
     }
+    Rcout << norm(y1-y2,2) << endl;
     List L1 = lts(X1,y1,alphas);
     List L2 = lts(X2,y2,alphas);
     List betas1 = L1["betas"];
@@ -127,6 +133,7 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
       is_outlier2 = arma::ones<arma::ivec>(n);
       beta1 = as<arma::vec>(wrap(betas1[i]));
       beta2 = as<arma::vec>(wrap(betas2[i]));
+      
       res1 = abs(y - X * beta1(arma::span(1,p)) - beta1[0]);
       res2 = abs(y - X * beta2(arma::span(1,p)) - beta2[0]);
       order1 = arma::sort_index(res1, "ascend");

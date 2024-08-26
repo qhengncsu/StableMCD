@@ -37,6 +37,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// get_insta
+double get_insta(const arma::ivec& is_outlier1, const arma::ivec& is_outlier2, int h);
+RcppExport SEXP _StableMCD_get_insta(SEXP is_outlier1SEXP, SEXP is_outlier2SEXP, SEXP hSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::ivec& >::type is_outlier1(is_outlier1SEXP);
+    Rcpp::traits::input_parameter< const arma::ivec& >::type is_outlier2(is_outlier2SEXP);
+    Rcpp::traits::input_parameter< int >::type h(hSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_insta(is_outlier1, is_outlier2, h));
+    return rcpp_result_gen;
+END_RCPP
+}
 // trimean
 double trimean(arma::vec x);
 RcppExport SEXP _StableMCD_trimean(SEXP xSEXP) {
@@ -138,6 +151,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_StableMCD_proj_depth", (DL_FUNC) &_StableMCD_proj_depth, 3},
     {"_StableMCD_lts", (DL_FUNC) &_StableMCD_lts, 3},
+    {"_StableMCD_get_insta", (DL_FUNC) &_StableMCD_get_insta, 3},
     {"_StableMCD_trimean", (DL_FUNC) &_StableMCD_trimean, 1},
     {"_StableMCD_bootstrap_lts", (DL_FUNC) &_StableMCD_bootstrap_lts, 4},
     {"_StableMCD_rcpp_hello_world", (DL_FUNC) &_StableMCD_rcpp_hello_world, 0},

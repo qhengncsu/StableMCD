@@ -66,13 +66,15 @@ void GetDirections(TDMatrix directions, int k, int d, int dirStyle,
     }
   } else{
     std::uniform_int_distribution<int> dis(0, n-1);
+    std::random_device rd;
+    std::mt19937 gen(rd());
     for (int i = 0; i < k; i++){
       double* direction = directions[i];
-      int index1 = dis(rEngine);
-      int index2 = dis(rEngine);
+      int index1 = dis(gen);
+      int index2 = dis(gen);
       double sqrSum = 0;
       while (index1==index2){
-        index2 = dis(rEngine);
+        index2 = dis(gen);
       }
       double* row1 = points[index1];
       double* row2 = points[index2];

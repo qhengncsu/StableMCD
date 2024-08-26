@@ -9,6 +9,10 @@ lts <- function(X, y, alphas) {
     .Call(`_StableMCD_lts`, X, y, alphas)
 }
 
+get_insta <- function(is_outlier1, is_outlier2, h) {
+    .Call(`_StableMCD_get_insta`, is_outlier1, is_outlier2, h)
+}
+
 trimean <- function(x) {
     .Call(`_StableMCD_trimean`, x)
 }

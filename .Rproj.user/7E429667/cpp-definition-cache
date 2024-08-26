@@ -1,262 +1,71 @@
 [
     {
         "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-        "file_last_write": 1724643656.0,
-        "definitions": [
-            {
-                "usr": "c:@F@as3DMatrix#*d#I#I#I#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "as3DMatrix(double *, int, int, int)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 5,
-                "column": 11,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@asMatrix#*d#I#I#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "asMatrix(double *, int, int)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 20,
-                "column": 10,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@newM#I#I#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "newM(int, int)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 27,
-                "column": 10,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@deleteM#**d#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "deleteM(TDMatrix)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 32,
-                "column": 6,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@copyM#**d#I#I#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "copyM(TDMatrix, int, int)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 37,
-                "column": 10,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@printMatrix#**d#I#I#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "printMatrix(TDMatrix, int, int)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 43,
-                "column": 6,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@GetDirections#**d#I#I#I#S0_#I#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "GetDirections(TDMatrix, int, int, int, TDMatrix, int)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 52,
-                "column": 6,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@GetProjections#**d#I#I#S0_#I#S0_#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "GetProjections(TDMatrix, int, int, TDMatrix, int, TDMatrix)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 91,
-                "column": 6,
-                "hidden": false
-            },
-            {
-                "usr": "c:ProjectionDepth.cpp@F@GetMedMad#&I#&d#S1_#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "GetMedMad(TPoint &, double &, double &)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 114,
-                "column": 13,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@GetPtsPrjDepths#*d#I#S0_#I#I#*I#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "GetPtsPrjDepths(double *, int, double *, int, TVariables, TMatrix *)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 130,
-                "column": 6,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@GetDepthsPrj#**d#I#I#S0_#I#I#I#b#S0_#S0_#S0_#I#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "GetDepthsPrj(TDMatrix, int, int, TDMatrix, int, TVariables, int, bool, TDMatrix, TDMatrix, TDMatrix, int)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 151,
-                "column": 5,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@Sum#*d#S0_#S0_#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "Sum(double *, double *, double *)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 196,
-                "column": 6,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@setSeed#I#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "setSeed(int)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 200,
-                "column": 6,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@ProjectionDepth#*d#S0_#*I#S1_#S1_#S1_#S0_#S0_#S1_#S1_#S1_#S0_#S1_#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "ProjectionDepth(double *, double *, int *, int *, int *, int *, double *, double *, int *, int *, int *, double *, int *)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 211,
-                "column": 6,
-                "hidden": false
-            },
-            {
-                "usr": "c:@F@proj_depth#&1$@N@arma@S@Mat>#d#S0_#I#",
-                "kind": 6,
-                "parent_name": "",
-                "name": "proj_depth(const arma::mat &, const arma::mat &, int)",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.cpp",
-                "line": 257,
-                "column": 21,
-                "hidden": false
-            }
-        ],
+        "file_last_write": 1724653929.0,
+        "definitions": [],
         "hidden": false
     },
     {
         "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.h",
-        "file_last_write": 1724359153.0,
-        "definitions": [
-            {
-                "usr": "c:ProjectionDepth.h@1473@macro@ran",
-                "kind": 9,
-                "parent_name": "",
-                "name": "ran",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.h",
-                "line": 53,
-                "column": 9,
-                "hidden": false
-            },
-            {
-                "usr": "c:ProjectionDepth.h@1501@macro@setseed",
-                "kind": 9,
-                "parent_name": "",
-                "name": "setseed",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.h",
-                "line": 54,
-                "column": 9,
-                "hidden": false
-            },
-            {
-                "usr": "c:ProjectionDepth.h@T@TPoint",
-                "kind": 8,
-                "parent_name": "",
-                "name": "TPoint",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.h",
-                "line": 20,
-                "column": 24,
-                "hidden": false
-            },
-            {
-                "usr": "c:ProjectionDepth.h@T@TMatrix",
-                "kind": 8,
-                "parent_name": "",
-                "name": "TMatrix",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.h",
-                "line": 21,
-                "column": 33,
-                "hidden": false
-            },
-            {
-                "usr": "c:ProjectionDepth.h@T@TIntMatrix",
-                "kind": 8,
-                "parent_name": "",
-                "name": "TIntMatrix",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.h",
-                "line": 22,
-                "column": 30,
-                "hidden": false
-            },
-            {
-                "usr": "c:ProjectionDepth.h@T@TVariables",
-                "kind": 8,
-                "parent_name": "",
-                "name": "TVariables",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.h",
-                "line": 23,
-                "column": 21,
-                "hidden": false
-            },
-            {
-                "usr": "c:ProjectionDepth.h@T@TDMatrix",
-                "kind": 8,
-                "parent_name": "",
-                "name": "TDMatrix",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.h",
-                "line": 25,
-                "column": 18,
-                "hidden": false
-            },
-            {
-                "usr": "c:ProjectionDepth.h@T@T3DMatrix",
-                "kind": 8,
-                "parent_name": "",
-                "name": "T3DMatrix",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.h",
-                "line": 26,
-                "column": 19,
-                "hidden": false
-            },
-            {
-                "usr": "c:@S@OrderRec",
-                "kind": 3,
-                "parent_name": "",
-                "name": "OrderRec",
-                "file": "C:/Users/Qiang/Documents/StableMCD/src/ProjectionDepth.h",
-                "line": 44,
-                "column": 8,
-                "hidden": false
-            }
-        ],
+        "file_last_write": 1724653004.0,
+        "definitions": [],
         "hidden": false
     },
     {
         "file": "C:/Users/Qiang/Documents/StableMCD/src/lts.cpp",
-        "file_last_write": 1724643499.0,
-        "definitions": [],
+        "file_last_write": 1724653598.0,
+        "definitions": [
+            {
+                "usr": "c:@F@lts#&1$@N@arma@S@Mat>#d#&1$@N@arma@S@Col>#d#S2_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "lts(const arma::mat &, const arma::colvec &, const arma::colvec &)",
+                "file": "C:/Users/Qiang/Documents/StableMCD/src/lts.cpp",
+                "line": 6,
+                "column": 6,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@Choose#I#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "Choose(int, int)",
+                "file": "C:/Users/Qiang/Documents/StableMCD/src/lts.cpp",
+                "line": 49,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@get_insta#&1$@N@arma@S@Col>#I#S0_#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "get_insta(const arma::ivec &, const arma::ivec &, int)",
+                "file": "C:/Users/Qiang/Documents/StableMCD/src/lts.cpp",
+                "line": 62,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@trimean#$@N@arma@S@Col>#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "trimean(arma::vec)",
+                "file": "C:/Users/Qiang/Documents/StableMCD/src/lts.cpp",
+                "line": 70,
+                "column": 8,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@bootstrap_lts#&1$@N@arma@S@Mat>#d#&1$@N@arma@S@Col>#d#S2_#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "bootstrap_lts(const arma::mat &, const arma::colvec &, const arma::colvec &, int)",
+                "file": "C:/Users/Qiang/Documents/StableMCD/src/lts.cpp",
+                "line": 88,
+                "column": 6,
+                "hidden": false
+            }
+        ],
         "hidden": false
     },
     {
