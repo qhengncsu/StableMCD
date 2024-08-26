@@ -3,8 +3,6 @@ using namespace Rcpp;
 using namespace std;
 extern boost::random::rand48 rEngine;
 
-
-
 // [[Rcpp::export]]
 List lts(const arma::mat& X, const arma::colvec& y, const arma::colvec& alphas){
   int n = X.n_rows;
@@ -142,7 +140,7 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
   }
   for(int i = 0; i<nalpha ; i++){
     arma::vec row = instas.row(i).as_col();
-    insta_means(i) = trimean(row);
+    insta_means(i) = mean(row);
   }
   insta_sds = arma::stddev(instas, 0, 1);
   double best_alpha = alphas(insta_means.index_min());
