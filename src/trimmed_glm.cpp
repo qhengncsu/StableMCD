@@ -191,7 +191,7 @@ List bootstrap_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec
     Rcout << "Bootstrap pair " << b+1 << " completed!" << std::endl;
   }
   for(int i = 0; i<nalpha; i++){
-    insta_means(i) = arma::mean(instas.row(i).as_col());
+    insta_means(i) = trimean(instas.row(i).as_col());
   }
   insta_sds = arma::stddev(instas, 0, 1);
   double best_alpha = alphas(insta_means.index_min());

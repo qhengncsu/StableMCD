@@ -13,7 +13,7 @@
     },
     {
         "file": "C:/Users/Qiang/Documents/StableMCD/src/lts.cpp",
-        "file_last_write": 1724697521.0,
+        "file_last_write": 1724703348.0,
         "definitions": [
             {
                 "usr": "c:@F@lts#&1$@N@arma@S@Mat>#d#&1$@N@arma@S@Col>#d#S2_#",
@@ -93,8 +93,69 @@
     },
     {
         "file": "C:/Users/Qiang/Documents/StableMCD/src/trimmed_glm.cpp",
-        "file_last_write": 1724699327.0,
-        "definitions": [],
+        "file_last_write": 1724703342.0,
+        "definitions": [
+            {
+                "usr": "c:@F@logit_inverse#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "logit_inverse(double)",
+                "file": "C:/Users/Qiang/Documents/StableMCD/src/trimmed_glm.cpp",
+                "line": 6,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@log_inverse#d#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "log_inverse(double)",
+                "file": "C:/Users/Qiang/Documents/StableMCD/src/trimmed_glm.cpp",
+                "line": 7,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@irls_glm#&1$@N@arma@S@Mat>#d#&1$@N@arma@S@Col>#d#S2_#&1$@N@std@N@__cxx11@S@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@S@allocator>#C#1d#1I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "irls_glm(const arma::mat &, const arma::vec &, const arma::vec &, const std::string &, const double, const int)",
+                "file": "C:/Users/Qiang/Documents/StableMCD/src/trimmed_glm.cpp",
+                "line": 10,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@var_stab_res#&1$@N@arma@S@Mat>#d#&1$@N@arma@S@Col>#d#S2_#&1$@N@std@N@__cxx11@S@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@S@allocator>#C#S2_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "var_stab_res(const arma::mat &, const arma::vec &, const arma::vec &, const std::string &, const arma::vec &)",
+                "file": "C:/Users/Qiang/Documents/StableMCD/src/trimmed_glm.cpp",
+                "line": 65,
+                "column": 15,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@trimmed_glm#&1$@N@arma@S@Mat>#d#&1$@N@arma@S@Col>#d#S2_#&1$@N@std@N@__cxx11@S@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@S@allocator>#C#S2_#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "trimmed_glm(const arma::mat &, const arma::colvec &, const arma::colvec &, const std::string &, const arma::colvec &)",
+                "file": "C:/Users/Qiang/Documents/StableMCD/src/trimmed_glm.cpp",
+                "line": 84,
+                "column": 6,
+                "hidden": false
+            },
+            {
+                "usr": "c:@F@bootstrap_glm#&1$@N@arma@S@Mat>#d#&1$@N@arma@S@Col>#d#S2_#&1$@N@std@N@__cxx11@S@basic_string>#C#$@N@std@S@char_traits>#C#$@N@std@S@allocator>#C#S2_#I#",
+                "kind": 6,
+                "parent_name": "",
+                "name": "bootstrap_glm(const arma::mat &, const arma::colvec &, const arma::colvec &, const std::string &, const arma::colvec &, int)",
+                "file": "C:/Users/Qiang/Documents/StableMCD/src/trimmed_glm.cpp",
+                "line": 134,
+                "column": 6,
+                "hidden": false
+            }
+        ],
         "hidden": false
     },
     {
