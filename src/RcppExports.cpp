@@ -12,14 +12,15 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // proj_depth
-Rcpp::NumericVector proj_depth(const arma::mat& X, const arma::mat& data);
-RcppExport SEXP _StableMCD_proj_depth(SEXP XSEXP, SEXP dataSEXP) {
+Rcpp::NumericVector proj_depth(const arma::mat& X, const arma::mat& data, int style);
+RcppExport SEXP _StableMCD_proj_depth(SEXP XSEXP, SEXP dataSEXP, SEXP styleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat& >::type X(XSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(proj_depth(X, data));
+    Rcpp::traits::input_parameter< int >::type style(styleSEXP);
+    rcpp_result_gen = Rcpp::wrap(proj_depth(X, data, style));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -135,7 +136,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_StableMCD_proj_depth", (DL_FUNC) &_StableMCD_proj_depth, 2},
+    {"_StableMCD_proj_depth", (DL_FUNC) &_StableMCD_proj_depth, 3},
     {"_StableMCD_lts", (DL_FUNC) &_StableMCD_lts, 3},
     {"_StableMCD_trimean", (DL_FUNC) &_StableMCD_trimean, 1},
     {"_StableMCD_bootstrap_lts", (DL_FUNC) &_StableMCD_bootstrap_lts, 4},

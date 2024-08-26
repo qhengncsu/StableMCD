@@ -92,7 +92,7 @@ List trimmed_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec& 
   int h = 0;
   arma::uvec init_index = arma::zeros<arma::uvec>(floor(0.5*n));
   arma::uvec order = arma::zeros<arma::uvec>(n);
-  arma::colvec depths = proj_depth(Xy, Xy);
+  arma::colvec depths = proj_depth(Xy, Xy, 1);
   order = arma::sort_index(depths, "descend");
   init_index = order.head(floor(0.5*n));
   arma::mat X_with_intercept = arma::join_horiz(arma::ones(n), X);

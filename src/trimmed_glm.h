@@ -5,7 +5,7 @@
 #include <boost/random/linear_congruential.hpp>
 #include <boost/random.hpp>
 
-Rcpp::NumericVector proj_depth(const arma::mat& X, const arma::mat& data);
+Rcpp::NumericVector proj_depth(const arma::mat& X, const arma::mat& data, int style);
 
 // extern "C" { 
 void ProjectionDepth(double *points, double *objects, int *numObjects,
