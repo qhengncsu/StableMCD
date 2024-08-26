@@ -254,12 +254,11 @@ void ProjectionDepth(double *points, double *objects, int *numObjects,
 // #endif
 
 // [[Rcpp::export]]
-Rcpp::NumericVector proj_depth(const arma::mat& X, const arma::mat& data){
+Rcpp::NumericVector proj_depth(const arma::mat& X, const arma::mat& data, int style=2){
   int m = X.n_rows;
   int p = X.n_cols;
   int n = data.n_rows;
   int numClasses = 1;
-  int style = 2;
   int k = max(1000,10*p);
   int newdirs = 1;
   int seed = 0;

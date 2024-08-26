@@ -116,18 +116,10 @@ List trimmed_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec& 
     beta = beta_init;
     beta_old = beta;
     while (j <= 100 && rel_change > 1e-6) {
-      if (family == "binomial" || family == "poisson") {
-        res = var_stab_res(X,y,weights,family,beta);
-      }else {
-        Rcpp::stop("Unsupported family. Use 'binomial' or 'poisson'.");
-      }
+      res = var_stab_res(X,y,weights,family,beta);
       order = arma::sort_index(abs(res), "ascend");
       index = order.head(h);
-      if (family == "binomial" || family == "poisson") {
-        beta_init = irls_glm(X_with_intercept.rows(index),y.elem(index),weights.elem(index),family);
-      }else {
-        Rcpp::stop("Unsupported family. Use 'binomial' or 'poisson'.");
-      }
+      beta_init = irls_glm(X_with_intercept.rows(index),y.elem(index),weights.elem(index),family);
       rel_change = arma::norm(beta - beta_old, 2) / (arma::norm(beta_old, 2) + 1);
       beta_old = beta;
       j++;
@@ -149,7 +141,7 @@ List bootstrap_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec
   arma::mat X2 = arma::mat(X);
   arma::colvec y1 = y;
   arma::colvec y2 = y;
-  arma::colvec insta_medians = arma::zeros<arma::colvec>(nalpha);
+  arma::colvec insta_means = arma::zeros<arma::colvec>(nalpha);
   arma::colvec insta_sds = arma::zeros<arma::colvec>(nalpha);
   arma::mat instas = arma::mat(nalpha, B);
   std::uniform_int_distribution<int> dis(0, n-1);
@@ -183,12 +175,8 @@ List bootstrap_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec
       is_outlier2 = arma::ones<arma::ivec>(n);
       beta1 = as<arma::vec>(wrap(betas1[i]));
       beta2 = as<arma::vec>(wrap(betas2[i]));
-      if (family == "binomial" || family == "poisson") {
-        res1 = var_stab_res(X,y,weights,family,beta1);
-        res2 = var_stab_res(X,y,weights,family,beta2);
-      }else {
-        Rcpp::stop("Unsupported family. Use 'binomial' or 'poisson'.");
-      }
+      res1 = var_stab_res(X,y,weights,family,beta1);
+      res2 = var_stab_res(X,y,weights,family,beta2);
       order1 = arma::sort_index(abs(res1), "ascend");
       order2 = arma::sort_index(abs(res2), "ascend");
       is_outlier1.elem(order1.head(h)) = arma::zeros<arma::ivec>(h);
@@ -198,11 +186,11 @@ List bootstrap_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec
     }
     Rcout << "Bootstrap pair " << b+1 << " completed!" << std::endl;
   }
-  insta_medians = arma::median(instas,1);
+  insta_means = arma::mean(instas,1);
   insta_sds = arma::stddev(instas, 0, 1);
-  double best_alpha = alphas(insta_medians.index_min());
+  double best_alpha = alphas(insta_means.index_min());
   return List::create(Named("best_alpha") = best_alpha,
-                      Named("insta_medians") = insta_medians,
+                      Named("insta_means") = insta_means,
                       Named("insta_sds") = insta_sds,
                       Named("alphas") = alphas);
 }

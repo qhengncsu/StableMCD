@@ -13,7 +13,7 @@ List lts(const arma::mat& X, const arma::colvec& y, const arma::colvec& alphas){
   int h = 0;
   arma::uvec init_index = arma::zeros<arma::uvec>(floor(0.5*n));
   arma::uvec order = arma::zeros<arma::uvec>(n);
-  arma::colvec depths = proj_depth(Xy, Xy);
+  arma::colvec depths = proj_depth(Xy, Xy, 1);
   order = arma::sort_index(depths, "descend");
   init_index = order.head(floor(0.5*n));
   arma::mat X_with_intercept = arma::join_horiz(arma::ones(n), X);
@@ -138,10 +138,7 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
     }
     Rcout << "Bootstrap pair " << b+1 << " completed!" << std::endl;
   }
-  for(int i = 0; i<nalpha ; i++){
-    arma::vec row = instas.row(i).as_col();
-    insta_means(i) = mean(row);
-  }
+  insta_means = arma::mean(instas,1);
   insta_sds = arma::stddev(instas, 0, 1);
   double best_alpha = alphas(insta_means.index_min());
   return List::create(Named("best_alpha") = best_alpha,
