@@ -21,11 +21,8 @@ install_github("qhengncsu/StableMCD")
 library(StableMCD)
 # generate data
 X = matrix(rnorm(400*5),nrow=400)
-beta = rep(1,5)
+beta = rep(1,5)+runif(5)
 y = X%*%beta + rnorm(100)
-
-#add outlier corruption to y
-y[1:40] = y[1:40] + 10
 
 #add outlier corruption to X
 X[41:80,1] =  X[41:80,1] + 10

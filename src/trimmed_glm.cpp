@@ -200,5 +200,6 @@ List bootstrap_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec
   return List::create(Named("best_alpha") = best_alpha,
                       Named("insta_means") = insta_means,
                       Named("insta_sds") = insta_sds,
-                      Named("alphas") = alphas);
+                      Named("alphas") = alphas,
+                      Named("instas") = instas);
 }
