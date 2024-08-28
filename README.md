@@ -1,4 +1,4 @@
-This repo provides code for two publications
+This repo describes the method implemented in the following two publications:
 
 1. High-dimensional Outlier Detection via Stability
 
