@@ -141,7 +141,9 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
       double insta = get_insta(is_outlier1, is_outlier2, h);
       instas(i, b) = insta;
     }
-    Rcout << "Bootstrap pair " << b+1 << " completed!" << std::endl;
+    if(b%10 == 0){
+      Rcout << "Bootstrap pair " << b+1 << " completed!" << std::endl;
+    }
   }
   for(int i = 0; i<nalpha; i++){
     insta_means(i) = trimean(instas.row(i).as_col());
