@@ -17,6 +17,7 @@ install_github("qhengncsu/StableMCD")
 
 ## Quick Start for "Bootstrap Estimation of the Proportion of Outliers In Robust Regression"
 
+### Simulated Data
 ```R
 library(StableMCD)
 # generate data
@@ -25,10 +26,13 @@ beta = rep(1,5)+runif(5)
 y = X%*%beta + rnorm(100)
 
 #add outlier corruption to X
-X[41:80,1] =  X[41:80,1] + 10
+X[1:100,1] =  X[1:100,1] + 10
 
 # Bootstrap!
 result = bootstrap_lts(X,y,seq(0.5,0.975,by=0.025))
-plot(seq(0.5,0.975,by=0.025), result$insta_means)
+plot(seq(0.5,0.975,by=0.025), result$insta_means, type = "b")
 ```
 
+### Real Data
+1. Run vigenettes/star.R to produce the instability path for the StarsCYG data.
+2. Run vigenettes/glass.R to produce the instability path for the Glass data.
