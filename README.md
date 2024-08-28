@@ -31,7 +31,7 @@ y[1:40] = y[1:40] + 10
 X[41:80,1] =  X[41:80,1] + 10
 
 # Bootstrap!
-result = bootstra_lts(X,y,seq(0.5,0.975,by=0.025))
+result = bootstrap_lts(X,y,seq(0.5,0.975,by=0.025))
 plot(seq(0.5,0.975,by=0.025), result$insta_means)
 ```
 
