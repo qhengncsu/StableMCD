@@ -18,8 +18,9 @@ install_github("qhengncsu/StableMCD")
 ## Quick Start for "Bootstrap Estimation of the Proportion of Outliers In Robust Regression"
 
 ```R
+library(StableMCD)
 # generate data
-X = matrix(randn(400*5),nrow=400)
+X = matrix(rnorm(400*5),nrow=400)
 beta = rep(1,5)
 y = X%*%beta + rnorm(100)
 
