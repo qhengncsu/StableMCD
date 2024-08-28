@@ -132,7 +132,7 @@ List trimmed_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec& 
 
 // [[Rcpp::export]]
 List bootstrap_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec& alphas, 
-                   const std::string& family, const arma::colvec& weights, int B = 50){
+                   const std::string& family, const arma::colvec& weights, int B = 100){
   int n = X.n_rows;
   int p = X.n_cols;
   int nalpha = alphas.n_elem;
@@ -188,7 +188,7 @@ List bootstrap_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec
       double insta = get_insta(is_outlier1, is_outlier2, h);
       instas(i, b) = insta;
     }
-    if(b%10 == 0){
+    if(b%10 == 9){
       Rcout << "Bootstrap pair " << b+1 << " completed!" << std::endl;
     }
   }

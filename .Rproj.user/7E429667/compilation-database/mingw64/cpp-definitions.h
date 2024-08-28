@@ -1052,10 +1052,6 @@
 # define __FLT64X_HAS_INFINITY__ 1
 #endif
 
-#ifndef __FLT32_HAS_INFINITY__
-# define __FLT32_HAS_INFINITY__ 1
-#endif
-
 #ifndef __SIZEOF_LONG__
 # define __SIZEOF_LONG__ 4
 #endif
@@ -1362,6 +1358,10 @@
 
 #ifndef __FLT_NORM_MAX__
 # define __FLT_NORM_MAX__ 3.40282346638528859811704183484516925e+38F
+#endif
+
+#ifndef __FLT32_HAS_INFINITY__
+# define __FLT32_HAS_INFINITY__ 1
 #endif
 
 #ifndef __FLT64X_MAX_EXP__

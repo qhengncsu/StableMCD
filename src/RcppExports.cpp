@@ -75,16 +75,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _StableMCD_rcpp_hello_world() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
-    return rcpp_result_gen;
-END_RCPP
-}
 // irls_glm
 NumericVector irls_glm(const arma::mat& X, const arma::vec& y, const arma::vec& weights, const std::string& family, const double tol, const int max_iter);
 RcppExport SEXP _StableMCD_irls_glm(SEXP XSEXP, SEXP ySEXP, SEXP weightsSEXP, SEXP familySEXP, SEXP tolSEXP, SEXP max_iterSEXP) {
@@ -154,7 +144,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_StableMCD_get_insta", (DL_FUNC) &_StableMCD_get_insta, 3},
     {"_StableMCD_trimean", (DL_FUNC) &_StableMCD_trimean, 1},
     {"_StableMCD_bootstrap_lts", (DL_FUNC) &_StableMCD_bootstrap_lts, 4},
-    {"_StableMCD_rcpp_hello_world", (DL_FUNC) &_StableMCD_rcpp_hello_world, 0},
     {"_StableMCD_irls_glm", (DL_FUNC) &_StableMCD_irls_glm, 6},
     {"_StableMCD_var_stab_res", (DL_FUNC) &_StableMCD_var_stab_res, 5},
     {"_StableMCD_trimmed_glm", (DL_FUNC) &_StableMCD_trimmed_glm, 5},

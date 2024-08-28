@@ -17,12 +17,8 @@ trimean <- function(x) {
     .Call(`_StableMCD_trimean`, x)
 }
 
-bootstrap_lts <- function(X, y, alphas, B = 50L) {
+bootstrap_lts <- function(X, y, alphas, B = 100L) {
     .Call(`_StableMCD_bootstrap_lts`, X, y, alphas, B)
-}
-
-rcpp_hello_world <- function() {
-    .Call(`_StableMCD_rcpp_hello_world`)
 }
 
 irls_glm <- function(X, y, weights, family, tol = 1e-8, max_iter = 25L) {
@@ -37,7 +33,7 @@ trimmed_glm <- function(X, y, alphas, family, weights) {
     .Call(`_StableMCD_trimmed_glm`, X, y, alphas, family, weights)
 }
 
-bootstrap_glm <- function(X, y, alphas, family, weights, B = 50L) {
+bootstrap_glm <- function(X, y, alphas, family, weights, B = 100L) {
     .Call(`_StableMCD_bootstrap_glm`, X, y, alphas, family, weights, B)
 }
 
