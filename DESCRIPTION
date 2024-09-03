@@ -5,8 +5,7 @@ Version: 1.0
 Date: 2024-08-17
 Author: Qiang Heng
 Maintainer: Qiang Heng <heng.qiang6@gmail.com>
-Description: Using the notion the stability to produce instability paths that can be used to identify the proportion of outliers in the MCD and LTS problem. For the MCD problem,
-it is also possible to select the number of principal components if spectral embedding is used.
+Description: Using the notion the stability to produce instability paths that can be used to identify the proportion of outliers in the MCD and LTS problem. 
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.13), RcppArmadillo
 LinkingTo: Rcpp, RcppArmadillo
