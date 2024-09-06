@@ -1,6 +1,6 @@
 useDynLib(StableMCD, .registration=TRUE)
 importFrom(Rcpp, evalCpp)
 exportPattern("^[[:alpha:]]+")
-export(lts)
+export(bootstrap_mcd)
 import(Rcpp)
 import(RcppArmadillo)

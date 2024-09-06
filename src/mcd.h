@@ -5,14 +5,13 @@
 #include <boost/random/linear_congruential.hpp>
 #include <boost/random.hpp>
 
-Rcpp::NumericVector proj_depth(const arma::mat& X, const arma::mat& data, int style=3, int multiplier = 10);
-double trimean(arma::vec x);
 
-// extern "C" { 
+double Choose(int n, int k);
+double get_insta(const arma::ivec& is_outlier1, const arma::ivec& is_outlier2, int h);
+
 void ProjectionDepth(double *points, double *objects, int *numObjects,
                      int *dimension, int *cardinalities, int *numClasses,
                      double *directions, double *projections, int *k,
                      int *newDirs, int *seed, double *depths, int *dirStyle); 
 
-double Choose(int n, int k);
-double get_insta(const arma::ivec& is_outlier1, const arma::ivec& is_outlier2, int h);
+Rcpp::NumericVector proj_depth(const arma::mat& X, const arma::mat& data, int style, int multiplier = 10);

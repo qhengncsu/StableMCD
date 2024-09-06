@@ -64,11 +64,46 @@ void GetDirections(TDMatrix directions, int k, int d, int dirStyle,
         direction[j] = direction[j]/sqrSum;
       }
     }
-  } else{
+  } else if(dirStyle == 2){
     std::uniform_int_distribution<int> dis(0, n-1);
     std::random_device rd;
     std::mt19937 gen(rd());
     for (int i = 0; i < k; i++){
+      double* direction = directions[i];
+      int index1 = dis(gen);
+      int index2 = dis(gen);
+      double sqrSum = 0;
+      while (index1==index2){
+        index2 = dis(gen);
+      }
+      double* row1 = points[index1];
+      double* row2 = points[index2];
+      for (int j = 0; j < d; j++){
+        direction[j] = row2[j] - row1[j];
+        sqrSum += direction[j]*direction[j];
+      }
+      sqrSum = sqrt(sqrSum);
+      for (int j = 0; j < d; j++){
+        direction[j] = direction[j]/sqrSum;
+      }
+    }
+  } else if(dirStyle == 3){
+    for (int i = 0; i < k/2; i++){
+      double* direction = directions[i];
+      double sqrSum = 0;
+      for (int j = 0; j < d; j++){
+        direction[j] = normDist(rEngine);
+        sqrSum += direction[j]*direction[j];
+      }
+      sqrSum = sqrt(sqrSum);
+      for (int j = 0; j < d; j++){
+        direction[j] = direction[j]/sqrSum;
+      }
+    }
+    std::uniform_int_distribution<int> dis(0, n-1);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    for (int i = k/2; i < k; i++){
       double* direction = directions[i];
       int index1 = dis(gen);
       int index2 = dis(gen);
@@ -256,12 +291,12 @@ void ProjectionDepth(double *points, double *objects, int *numObjects,
 // #endif
 
 // [[Rcpp::export]]
-Rcpp::NumericVector proj_depth(const arma::mat& X, const arma::mat& data, int style){
+Rcpp::NumericVector proj_depth(const arma::mat& X, const arma::mat& data, int style=3, int multiplier = 10){
   int m = X.n_rows;
   int p = X.n_cols;
   int n = data.n_rows;
   int numClasses = 1;
-  int k = max(1000,10*p);
+  int k = max(1000,multiplier*p);
   int newdirs = 1;
   int seed = 0;
   double* points = new double[n*p];
