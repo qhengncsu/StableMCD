@@ -76,49 +76,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// concentration
-List concentration(const arma::mat& X, int h, arma::uvec index, bool verbose);
-RcppExport SEXP _StableMCD_concentration(SEXP XSEXP, SEXP hSEXP, SEXP indexSEXP, SEXP verboseSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type X(XSEXP);
-    Rcpp::traits::input_parameter< int >::type h(hSEXP);
-    Rcpp::traits::input_parameter< arma::uvec >::type index(indexSEXP);
-    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
-    rcpp_result_gen = Rcpp::wrap(concentration(X, h, index, verbose));
-    return rcpp_result_gen;
-END_RCPP
-}
-// mcd
-List mcd(const arma::mat& X, const arma::colvec& alphas, bool csteps, int direction_style);
-RcppExport SEXP _StableMCD_mcd(SEXP XSEXP, SEXP alphasSEXP, SEXP cstepsSEXP, SEXP direction_styleSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type X(XSEXP);
-    Rcpp::traits::input_parameter< const arma::colvec& >::type alphas(alphasSEXP);
-    Rcpp::traits::input_parameter< bool >::type csteps(cstepsSEXP);
-    Rcpp::traits::input_parameter< int >::type direction_style(direction_styleSEXP);
-    rcpp_result_gen = Rcpp::wrap(mcd(X, alphas, csteps, direction_style));
-    return rcpp_result_gen;
-END_RCPP
-}
-// bootstrapMcd
-List bootstrapMcd(const arma::mat& X, const arma::colvec& alphas, bool csteps, int direction_style, int B);
-RcppExport SEXP _StableMCD_bootstrapMcd(SEXP XSEXP, SEXP alphasSEXP, SEXP cstepsSEXP, SEXP direction_styleSEXP, SEXP BSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type X(XSEXP);
-    Rcpp::traits::input_parameter< const arma::colvec& >::type alphas(alphasSEXP);
-    Rcpp::traits::input_parameter< bool >::type csteps(cstepsSEXP);
-    Rcpp::traits::input_parameter< int >::type direction_style(direction_styleSEXP);
-    Rcpp::traits::input_parameter< int >::type B(BSEXP);
-    rcpp_result_gen = Rcpp::wrap(bootstrapMcd(X, alphas, csteps, direction_style, B));
-    return rcpp_result_gen;
-END_RCPP
-}
 // irls_glm
 NumericVector irls_glm(const arma::mat& X, const arma::vec& y, const arma::vec& weights, const std::string& family, const double tol, const int max_iter);
 RcppExport SEXP _StableMCD_irls_glm(SEXP XSEXP, SEXP ySEXP, SEXP weightsSEXP, SEXP familySEXP, SEXP tolSEXP, SEXP max_iterSEXP) {
@@ -188,9 +145,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_StableMCD_get_insta", (DL_FUNC) &_StableMCD_get_insta, 3},
     {"_StableMCD_trimean", (DL_FUNC) &_StableMCD_trimean, 1},
     {"_StableMCD_bootstrap_lts", (DL_FUNC) &_StableMCD_bootstrap_lts, 4},
-    {"_StableMCD_concentration", (DL_FUNC) &_StableMCD_concentration, 4},
-    {"_StableMCD_mcd", (DL_FUNC) &_StableMCD_mcd, 4},
-    {"_StableMCD_bootstrapMcd", (DL_FUNC) &_StableMCD_bootstrapMcd, 5},
     {"_StableMCD_irls_glm", (DL_FUNC) &_StableMCD_irls_glm, 6},
     {"_StableMCD_var_stab_res", (DL_FUNC) &_StableMCD_var_stab_res, 5},
     {"_StableMCD_trimmed_glm", (DL_FUNC) &_StableMCD_trimmed_glm, 5},

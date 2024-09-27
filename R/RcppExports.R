@@ -21,18 +21,6 @@ bootstrap_lts <- function(X, y, alphas, B = 100L) {
     .Call(`_StableMCD_bootstrap_lts`, X, y, alphas, B)
 }
 
-concentration <- function(X, h, index, verbose = TRUE) {
-    .Call(`_StableMCD_concentration`, X, h, index, verbose)
-}
-
-mcd <- function(X, alphas, csteps = TRUE, direction_style = 3L) {
-    .Call(`_StableMCD_mcd`, X, alphas, csteps, direction_style)
-}
-
-bootstrapMcd <- function(X, alphas, csteps = TRUE, direction_style = 3L, B = 100L) {
-    .Call(`_StableMCD_bootstrapMcd`, X, alphas, csteps, direction_style, B)
-}
-
 irls_glm <- function(X, y, weights, family, tol = 1e-8, max_iter = 25L) {
     .Call(`_StableMCD_irls_glm`, X, y, weights, family, tol, max_iter)
 }

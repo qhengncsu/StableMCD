@@ -88,22 +88,10 @@ void GetDirections(TDMatrix directions, int k, int d, int dirStyle,
       }
     }
   } else if(dirStyle == 3){
-    for (int i = 0; i < k/2; i++){
-      double* direction = directions[i];
-      double sqrSum = 0;
-      for (int j = 0; j < d; j++){
-        direction[j] = normDist(rEngine);
-        sqrSum += direction[j]*direction[j];
-      }
-      sqrSum = sqrt(sqrSum);
-      for (int j = 0; j < d; j++){
-        direction[j] = direction[j]/sqrSum;
-      }
-    }
     std::uniform_int_distribution<int> dis(0, n-1);
     std::random_device rd;
     std::mt19937 gen(rd());
-    for (int i = k/2; i < k; i++){
+    for (int i = 0; i < 500; i++){
       double* direction = directions[i];
       int index1 = dis(gen);
       int index2 = dis(gen);
@@ -115,6 +103,18 @@ void GetDirections(TDMatrix directions, int k, int d, int dirStyle,
       double* row2 = points[index2];
       for (int j = 0; j < d; j++){
         direction[j] = row2[j] - row1[j];
+        sqrSum += direction[j]*direction[j];
+      }
+      sqrSum = sqrt(sqrSum);
+      for (int j = 0; j < d; j++){
+        direction[j] = direction[j]/sqrSum;
+      }
+    }
+    for (int i = 500; i < k; i++){
+      double* direction = directions[i];
+      double sqrSum = 0;
+      for (int j = 0; j < d; j++){
+        direction[j] = normDist(rEngine);
         sqrSum += direction[j]*direction[j];
       }
       sqrSum = sqrt(sqrSum);
