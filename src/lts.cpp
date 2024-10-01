@@ -93,8 +93,8 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
   arma::mat X2 = arma::mat(X);
   arma::colvec y1 = y;
   arma::colvec y2 = y;
-  arma::colvec insta_means = arma::zeros<arma::colvec>(nalpha);
-  arma::colvec insta_sds = arma::zeros<arma::colvec>(nalpha);
+  arma::colvec means = arma::zeros<arma::colvec>(nalpha);
+  arma::colvec sds = arma::zeros<arma::colvec>(nalpha);
   arma::mat instas = arma::mat(nalpha, B);
   std::uniform_int_distribution<int> dis(0, n-1);
   int index1, index2;
@@ -146,13 +146,13 @@ List bootstrap_lts(const arma::mat& X, const arma::colvec& y, const arma::colvec
     }
   }
   for(int i = 0; i<nalpha; i++){
-    insta_means(i) = trimean(instas.row(i).as_col());
+    means(i) = mean(instas.row(i).as_col());
   }
-  insta_sds = arma::stddev(instas, 0, 1);
-  double best_alpha = alphas(insta_means.index_min());
+  sds = arma::stddev(instas, 0, 1);
+  double best_alpha = alphas(means.index_min());
   return List::create(Named("best_alpha") = best_alpha,
-                      Named("insta_means") = insta_means,
-                      Named("insta_sds") = insta_sds,
+                      Named("means") = means,
+                      Named("sds") = sds,
                       Named("alphas") = alphas,
                       Named("instas") = instas);
 }
