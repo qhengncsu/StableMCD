@@ -51,7 +51,7 @@ readily available on CRAN.
 3. Run vigenettes/fruit.R to produce Figure 5 for the Fruit data (warning, it will
 take about 5 minutes).
 4. Run vigenettes/glass_robpca.R to produce Figure 6 for the Glass Data.
-5. Run vigenettes/breast.R to produce Figure 7 for the breast cancer Data (warning, 
+5. Run vigenettes/breast.R to produce Figure 7 for the Breast Cancer Data (warning, 
 it will take about 20 minutes).
 
 
