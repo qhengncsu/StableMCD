@@ -41,6 +41,8 @@ x = cbind(x1,x2)
 result = bootstrap_mcd(x,seq(0.5,0.975,by=0.025),B=200,classifier="MD")
 plot(seq(0.5,0.975,by=0.025), result$means, type = "b")
 ```
+Run vigenettes/example_simulation_mcd.R to produce a panel of Figure 2.
+
 
 ### Real Data
 Set working directory to "[pathofrepo]/vigenettes". The packages imported at the
