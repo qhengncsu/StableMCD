@@ -1,6 +1,5 @@
 library(MASS)
 library(ggplot2)
-library(gridExtra)
 library(StableMCD)
 n = 400
 p = 40
