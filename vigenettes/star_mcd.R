@@ -2,12 +2,13 @@ library(StableMCD)
 library(DetMCD)
 library(ggplot2)
 library(gridExtra)
-star = readRDS("star.rds")
-x = as.matrix(star)
+library(robustbase)
+data(starsCYG)
+x = as.matrix(starsCYG)
 alphas = seq(25,46)/47+0.001
 
 ptm <- proc.time()
-result = bootstrap_mcd(x,alphas,B=100,classifier="depth")
+result = bootstrap_mcd(x,alphas,B=200,classifier="depth")
 time <- proc.time() - ptm
 
 data = data.frame(h=25:46,insta_mean=result$means,insta_sd=result$sds)

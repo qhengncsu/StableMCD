@@ -9,7 +9,9 @@ Qiang Heng, Hui Shen, Kenneth Lange (2024+)
 Qiang Heng, Kenneth Lange (2024+).
 
 ## Installation
-
+To install the package, the right development tools must be in place. Specifically,
+Windows users need [RTools](https://cran.r-project.org/bin/windows/Rtools/), while
+Mac users need [Xcode and a Fortran compiler](https://cran.r-project.org/bin/macosx/tools/).
 ```R
 library(devtools)
 install_github("qhengncsu/StableMCD")

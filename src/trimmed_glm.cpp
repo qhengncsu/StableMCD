@@ -84,7 +84,6 @@ NumericVector var_stab_res(const arma::mat& X, const arma::vec& y, const arma::v
 List trimmed_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec& alphas, 
                  const std::string& family, const arma::colvec& weights){
   int n = X.n_rows;
-  int p = X.n_cols + 1;
   arma::mat Xy = arma::join_horiz(X,y);
   //copy the contents of Xy to a new double vector
   //traverse row by row!
@@ -106,7 +105,7 @@ List trimmed_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec& 
   arma::colvec res = arma::zeros<arma::colvec>(n);
   Rcpp::List betas(alphas.n_elem);
   Rcpp::List indexes(alphas.n_elem);
-  for (int i = 0; i < alphas.n_elem; i++){
+  for (unsigned i = 0; i < alphas.n_elem; i++){
     double alpha = alphas(i);
     h = floor(alpha * n);
     arma::uvec index = arma::zeros<arma::uvec>(h);
@@ -134,7 +133,6 @@ List trimmed_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec& 
 List bootstrap_glm(const arma::mat& X, const arma::colvec& y, const arma::colvec& alphas, 
                    const std::string& family, const arma::colvec& weights, int B = 100){
   int n = X.n_rows;
-  int p = X.n_cols;
   int nalpha = alphas.n_elem;
   arma::mat X1 = arma::mat(X);
   arma::mat X2 = arma::mat(X);

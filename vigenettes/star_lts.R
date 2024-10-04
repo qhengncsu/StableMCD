@@ -1,13 +1,13 @@
 library(ggplot2)
 library(gridExtra)
 library(dplyr)
+library(robustbase)
 library(StableMCD)
 set.seed(1)
-star = readRDS("star.rds")
+data("starsCYG")
 alphas = seq(25,46)/47+0.001
-
-x = matrix(star$log.Te,nrow=47)
-y = star$log.light
+x = matrix(starsCYG$log.Te,nrow=47)
+y = starsCYG$log.light
 bootstrap_result = bootstrap_lts(x,y,alphas,B=1000)
 data = data.frame(h=25:46,insta_mean=bootstrap_result$means,insta_sd=bootstrap_result$sds)
 ggplot(data,aes(x=h))+

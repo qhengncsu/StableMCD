@@ -5,7 +5,6 @@ using namespace std;
 // [[Rcpp::export]]
 List lts(const arma::mat& X, const arma::colvec& y, const arma::colvec& alphas){
   int n = X.n_rows;
-  int p = X.n_cols + 1;
   arma::mat Xy = arma::join_horiz(X,y);
   //copy the contents of Xy to a new double vector 
   //traverse row by row!
@@ -22,7 +21,7 @@ List lts(const arma::mat& X, const arma::colvec& y, const arma::colvec& alphas){
   arma::colvec likelihood = arma::zeros<arma::colvec>(n);
   Rcpp::List betas(alphas.n_elem);
   Rcpp::List indexes(alphas.n_elem);
-  for (int i = 0; i < alphas.n_elem; i++){
+  for (unsigned i = 0; i < alphas.n_elem; i++){
     double alpha = alphas(i);
     h = floor(alpha * n);
     arma::uvec index = arma::zeros<arma::uvec>(h);
