@@ -8,4 +8,4 @@ Maintainer: Qiang Heng <heng.qiang6@gmail.com>
 Description: Using the notion the stability to produce instability paths that can be used to identify the proportion of outliers in the MCD and LTS problem. 
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.13), RcppArmadillo
-LinkingTo: Rcpp, RcppArmadillo
+LinkingTo: Rcpp, RcppArmadillo, BH
