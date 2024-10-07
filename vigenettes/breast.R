@@ -11,7 +11,8 @@ PCs = res$scores
 
 ptm <- proc.time()
 bootstrap_result1 = bootstrap_robpca(x,seq(0.5,0.975,by=0.025),2)
-bootstrap_result2 = bootstrap_robpca(x,seq(0.5,0.975,by=0.025),10)
+bootstrap_result2 = bootstrap_robpca(x,seq(0.5,0.975,by=0.025),5)
+bootstrap_result3 = bootstrap_robpca(x,seq(0.5,0.975,by=0.025),10)
 time <- proc.time() - ptm
 
 
@@ -23,17 +24,21 @@ plot1 = ggplot()+ geom_point(data=data1, aes(x=X1,y=X2,color=ER),size=2) +
                      values=c("blue","red"))
 
 data2 = data.frame(h=seq(0.5,0.975,by=0.025),mean_q2 = bootstrap_result1$means,sd_q2 = bootstrap_result1$sds,
-                   mean_q10 = bootstrap_result2$means,sd_q10 = bootstrap_result2$sds)
+                   mean_q5 = bootstrap_result2$means,sd_q5 = bootstrap_result2$sds,
+                   mean_q10 = bootstrap_result3$means,sd_q10 = bootstrap_result3$sds)
 
 plot2  = ggplot(data2,aes(x=h))+
   geom_point(aes(y=mean_q2,color="q=2"))+
+  geom_point(aes(y=mean_q5,color="q=5"))+
   geom_point(aes(y=mean_q10,color="q=10"))+
-  geom_errorbar(aes(ymin=mean_q2-sd_q2,ymax=mean_q2+sd_q2,color="q=2"),width=0.01)+
-  geom_errorbar(aes(ymin=mean_q10-sd_q10,ymax=mean_q10+sd_q10,color="q=10"),width=0.01)+
+  #geom_errorbar(aes(ymin=mean_q2-sd_q2,ymax=mean_q2+sd_q2,color="q=2"),width=0.01)+
+  #geom_errorbar(aes(ymin=mean_q5-sd_q5,ymax=mean_q5+sd_q5,color="q=5"),width=0.01)+
+  #geom_errorbar(aes(ymin=mean_q10-sd_q10,ymax=mean_q10+sd_q10,color="q=10"),width=0.01)+
   geom_line(aes(y=mean_q2,color="q=2"))+
+  geom_line(aes(y=mean_q5,color="q=5"))+
   geom_line(aes(y=mean_q10,color="q=10"))+
-  scale_color_manual("Number of PCs",breaks=c("q=2","q=10"),
-                     values=c("navyblue","darkred"))+
+  scale_color_manual("Number of PCs",breaks=c("q=2","q=5","q=10"),
+                     values=c("navyblue","darkgreen","darkred"))+
   labs(y = "Instability", x = "h/n", title="Instability on Breast Cancer Data")+theme_bw()+
   theme(plot.title = element_text(hjust = 0.5), legend.position = "None", text = element_text(size=12))
 
@@ -64,3 +69,5 @@ plot4 = ggplot()+ geom_point(data=data4, aes(x=X1,y=X2),size=2, color='blue',sha
 
 grid.arrange(plot1, plot2, plot3, plot4, nrow=2, ncol=2)
 
+#res5 = PcaHubert(x,k=5,alpha=0.5)
+#table(1-res5$flag,data$ER_status)
