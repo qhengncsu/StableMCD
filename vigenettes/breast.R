@@ -9,6 +9,7 @@ res = PcaHubert(x,k=2,alpha=0.5)
 n = dim(x)[1]
 PCs = res$scores
 
+set.seed(1)
 ptm <- proc.time()
 bootstrap_result1 = bootstrap_robpca(x,seq(0.5,0.975,by=0.025),2)
 bootstrap_result2 = bootstrap_robpca(x,seq(0.5,0.975,by=0.025),5)
@@ -23,9 +24,9 @@ plot1 = ggplot()+ geom_point(data=data1, aes(x=X1,y=X2,color=ER),size=2) +
   scale_color_manual(breaks=c("Positive","Negative"),
                      values=c("blue","red"))
 
-data2 = data.frame(h=seq(0.5,0.975,by=0.025),mean_q2 = bootstrap_result1$means,sd_q2 = bootstrap_result1$sds,
-                   mean_q5 = bootstrap_result2$means,sd_q5 = bootstrap_result2$sds,
-                   mean_q10 = bootstrap_result3$means,sd_q10 = bootstrap_result3$sds)
+data2 = data.frame(h=seq(0.5,0.975,by=0.025),mean_q2 = bootstrap_result1$final_score,
+                   mean_q5 = bootstrap_result2$final_score,
+                   mean_q10 = bootstrap_result3$final_score)
 
 plot2  = ggplot(data2,aes(x=h))+
   geom_point(aes(y=mean_q2,color="q=2"))+
@@ -39,10 +40,10 @@ plot2  = ggplot(data2,aes(x=h))+
   geom_line(aes(y=mean_q10,color="q=10"))+
   scale_color_manual("Number of PCs",breaks=c("q=2","q=5","q=10"),
                      values=c("navyblue","darkgreen","darkred"))+
-  labs(y = "Instability", x = "h/n", title="Instability on Breast Cancer Data")+theme_bw()+
+  labs(y = "Final Score", x = "h/n", title="Final Score on Breast Cancer Data")+theme_bw()+
   theme(plot.title = element_text(hjust = 0.5), legend.position = "None", text = element_text(size=12))
 
-result3 = mcd(PCs,0.775)
+result3 = mcd(PCs,0.75)
 is_outlier = rep("High-SD",dim(x)[1])
 ods = res$od>res$cutoff.od
 is_outlier[result3$index] = "Inlier"
@@ -57,7 +58,7 @@ plot3 = ggplot()+ geom_point(data=data3, aes(x=X1,y=X2,color=Class),size=2) +
 SDs = res$sd
 ODs = res$od
 
-cutoff.insta = sort(SDs)[floor(0.775*dim(x)[1])]
+cutoff.insta = sort(SDs)[floor(0.75*dim(x)[1])]
 
 data4 = data.frame(X1 = SDs, X2=ODs)
 plot4 = ggplot()+ geom_point(data=data4, aes(x=X1,y=X2),size=2, color='blue',shape=1) + 
@@ -70,4 +71,6 @@ plot4 = ggplot()+ geom_point(data=data4, aes(x=X1,y=X2),size=2, color='blue',sha
 grid.arrange(plot1, plot2, plot3, plot4, nrow=2, ncol=2)
 
 #res5 = PcaHubert(x,k=5,alpha=0.5)
-#table(1-res5$flag,data$ER_status)
+#is_outlier[is_outlier=="High-OD"] = "Outlier"
+#is_outlier[is_outlier=="High-SD"] = "Outlier"
+#table(is_outlier,data$ER_status)

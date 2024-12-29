@@ -51,28 +51,52 @@ if(outlier_type=="Point"){
 }else if(outlier_type=="Cluster"){
   dis <- r*(p^(1/4))
   p11 <- rep(dis/sqrt(p),p)
-  y[index_opt,]<-mvrnorm(outlier_ratio*n,p11,diag(p))
+  y[index_opt[1:10],]<-mvrnorm(0.1*outlier_ratio*n,p11,diag(p))
+  y[index_opt[11:100],]<-mvrnorm(0.9*outlier_ratio*n,10*p11,diag(p))
 }else if(outlier_type=="Random"){
   dis <- r*(p^(1/4))
-  for (l in index_opt){
+  p11 <- rep(dis,p)
+  for (l in index_opt[1:10]){
     p11=pvector1(rep(0,p),dis)
     y[l,]<-mvrnorm(1,p11,diag(p))}
+  for (l in 11:100){
+    p11=pvector1(rep(0,p),dis)
+    y[index_opt[l],]<-mvrnorm(1,(l-10)*p11,diag(p))}
 }else if(outlier_type=="Radial"){
   y[index_opt,]<-mvrnorm(outlier_ratio*n,rep(0,p),5*diag(p))
 }
 x<-y%*%G
 
 ptm <- proc.time()
-result = bootstrap_mcd(x,seq(0.5,0.975,by=0.025),B=50,classifier='MD')
+result = bootstrap_mcd(x,seq(0.7,0.8,by=0.005),B=100,classifier='MD')
 print(result$best_alpha)
 time <- proc.time() - ptm
 
 #result = mcd(x,0.75)
 
-data1 = data.frame(h = seq(0.5,0.975,by=0.025)*dim(x)[1],insta=as.vector(result$means),sd = as.vector(result$sds))
+data1 = data.frame(h = seq(0.7,0.8,by=0.005)*dim(x)[1],insta=as.vector(result$means),sd = as.vector(result$sds))
 ggplot(data1, aes(x=h, y=insta)) + 
   geom_line(colour="navyblue") +
   geom_point(colour="navyblue")+
   geom_errorbar(aes(ymin=insta-sd,ymax=insta+sd),width=0.01)+
   labs(y = "Instability", x = "h", title="Instability")+theme_bw()+
   theme(plot.title = element_text(hjust = 0.5),text = element_text(size=12))
+
+
+set.seed(1234)
+n = 1000
+x1 = rnorm(n)
+x2 = rnorm(n)
+
+x = cbind(x1, x2)#
+
+x[1:50, ] = rep(c(-10, 10), each = 5) + rnorm(50)
+x[51:60, ] = 200 + rnorm(10)
+plot(x)
+plot(mahalanobis(x, rep(0, 2), diag(2)))
+
+
+dvals = seq(0.9,0.99,by=0.01)
+result = bootstrap_mcd(x,dvals,B=100,classifier="MD")
+cbind(dvals, result$means)
+plot(dvals, result$means, type = "b")

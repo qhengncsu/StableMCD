@@ -3,7 +3,8 @@ get_instability <- function(is_outliers1,is_outliers2, h){
   instability <- sum(abs(is_outliers1-is_outliers2))
   p <- instability/n
   c <- (choose(h,2) + choose(n-h,2))/choose(n,2)
-  return(p*(1-p)/(c*(1-c))-1)
+  #return(p*(1-p)/(c*(1-c))-1)
+  return(p/(1-c))
 }
 
 concentration <- function(x,index,h,max_iter=100,verbose=T){
@@ -13,7 +14,7 @@ concentration <- function(x,index,h,max_iter=100,verbose=T){
     i <- i + 1
     subset <- x[index,]
     muhat <- apply(subset,2,mean)
-    Sigmahat <- cov(subset)
+    Sigmahat <- cov(subset)*nrow(x)/(nrow(x)-1)
     MD <- mahalanobis(x, muhat, Sigmahat)
     index_new <- order(MD)[1:h]
     sum_distances <- sum(MD[index_new])
@@ -40,11 +41,88 @@ mcd <- function(x,alpha,verbose=T){
   return(concentration(x,index,h,verbose=verbose))
 }
 
-bootstrap_mcd <- function(x, alphas, B=50, classifier='depth'){
+l1_depth <- function (x, data){
+  if (!(is.matrix(data) && is.numeric(data) || is.data.frame(data) && 
+        prod(sapply(data, is.numeric))) || ncol(data) < 2) {
+    stop("Argument \"data\" should be a numeric matrix of at least 2-dimensional data")
+  }
+  if (is.data.frame(data)) 
+    data = data.matrix(data)
+  if (!is.matrix(x)) {
+    if (is.vector(x)) 
+      x <- matrix(x, nrow = 1)
+    if (is.data.frame(x)) 
+      x = data.matrix(x)
+  }
+  mean <- colMeans(data)
+  cov <- cov(data)
+  if (sum(is.na(cov)) == 0) {
+    cov.eig <- eigen(cov)
+    B <- cov.eig$vectors %*% diag(sqrt(cov.eig$values))
+    lambda <- solve(B)
+  }
+  else {
+    lambda = diag(ncol(data))
+  }
+  depths <- rep(-1, nrow(x))
+  x_scaled <- x %*% t(lambda)
+  data_scaled <- data %*% t(lambda) 
+  for (i in 1:nrow(x)){
+    #tmp1 <- t(lambda %*% (x[i, ] - t(data)))
+    tmp1 <- t((x_scaled[i, ] - t(data_scaled)))
+    tmp2 <- 1/sqrt(rowSums(tmp1^2))
+    tmp2[is.infinite(tmp2)] <- 0
+    depths[i] <- 1 - sqrt(sum((colSums(tmp2 * tmp1)/nrow(data))^2))
+  }
+  return(depths)
+}
+
+# Helper function to compute matrix square root
+matrix_sqrt <- function(mat) {
+  eig <- eigen(mat)
+  eig$values[eig$values < 0] <- 0 # Handle numerical precision issues
+  eig$vectors %*% diag(sqrt(eig$values)) %*% t(eig$vectors)
+}
+
+wasserstein_distance <- function(mu1, Sigma1, mu2, Sigma2) {
+  # Ensure the inputs are numeric
+  mu1 <- as.numeric(mu1)
+  mu2 <- as.numeric(mu2)
+  Sigma1 <- as.matrix(Sigma1)
+  Sigma2 <- as.matrix(Sigma2)
+  
+  # Check dimensional consistency
+  if (length(mu1) != length(mu2) || nrow(Sigma1) != ncol(Sigma1) || 
+      nrow(Sigma2) != ncol(Sigma2) || nrow(Sigma1) != nrow(Sigma2)) {
+    stop("Dimension mismatch between mean vectors and covariance matrices.")
+  }
+  
+  # Calculate mean term (L2 norm squared)
+  mean_diff <- sum((mu1 - mu2)^2)
+  
+  # Compute square root of Sigma1
+  Sigma1_sqrt <- matrix_sqrt(Sigma1)
+  
+  # Middle term: Sigma1_sqrt %*% Sigma2 %*% Sigma1_sqrt
+  middle <- Sigma1_sqrt %*% Sigma2 %*% Sigma1_sqrt
+  middle_sqrt <- matrix_sqrt(middle)
+  
+  # Compute trace term
+  trace_term <- sum(diag(Sigma1 + Sigma2 - 2 * middle_sqrt))
+  
+  # Wasserstein distance
+  W2 <- mean_diff + trace_term
+  return(sqrt(W2)) # Return the 2-Wasserstein distance
+}
+
+
+bootstrap_mcd <- function(x, alphas, B=50, classifier='MD'){
   n <- nrow(x)
   instabilities = list()
+  wds = list()
   for(i in 1:length(alphas)){
     instabilities[[i]] = rep(0,B)
+    wds[[i]] = rep(0,B)
   }
   depths = proj_depth(x,x,3,multiplier=100)
   for(b in 1:B){
@@ -66,7 +144,7 @@ bootstrap_mcd <- function(x, alphas, B=50, classifier='depth'){
       result2 = concentration(x2,index2,h,verbose=F)
       index1 = result1$index
       index2 = result2$index
-      if(classifier=="depth"){
+      if(classifier=="proj_depth"){
         depths1 = proj_depth(x,x1[index1,],1,multiplier=100)
         depths2 = proj_depth(x,x2[index2,],1,multiplier=100)
         order1 = order(depths1,decreasing = TRUE)
@@ -76,6 +154,11 @@ bootstrap_mcd <- function(x, alphas, B=50, classifier='depth'){
         MD2 <- mahalanobis(x, result2$muhat, result2$Sigmahat)
         order1 = order(MD1,decreasing = FALSE)
         order2 = order(MD2,decreasing = FALSE)
+      }else if(classifier=="l1_depth"){
+        depths1 = l1_depth(x,x1[index1,])
+        depths2 = l1_depth(x,x2[index2,])
+        order1 = order(depths1,decreasing = TRUE)
+        order2 = order(depths2,decreasing = TRUE)
       }else{
         stop("Invalid Classifier!")
       }
@@ -84,25 +167,28 @@ bootstrap_mcd <- function(x, alphas, B=50, classifier='depth'){
       is_outliers1[order1[1:h]] = 0
       is_outliers2[order2[1:h]] = 0
       instabilities[[i]][b] = get_instability(is_outliers1,is_outliers2,h)
-      #instabilities[[i]][b,j] = -cor(depths1,depths2,method='kendall')
+      wds[[i]][b] = log(wasserstein_distance(result1$muhat,result1$Sigmahat,result2$muhat,result2$Sigmahat))
     }
     if(b%%10==0){
       cat(sprintf("Bootstrap pair %d completed!\n", b))
     }
   }
-  means = rep(0,length(alphas))
-  sds = rep(0,length(alphas))
+  insta_means = rep(0,length(alphas))
+  insta_sds = rep(0,length(alphas))
+  wd_means = rep(0,length(alphas))
+  wd_sds = rep(0,length(alphas))
   for(i in 1:length(alphas)){
-    #quartiles <- quantile(instabilities[[i]], probs = c(0.25, 0.5, 0.75))
     order = order(instabilities[[i]])
-    #trimeans[i] = (quartiles[1]+2*quartiles[2]+quartiles[3])/4
-    means[i] = mean(instabilities[[i]])
-    h = floor(alphas[i]*n)
-    #retain = 1 - (1 - pbinom(h,n,h/n))^2
-    #means[i] = mean(instabilities[[i]][order[1:(0.95*B)]])
-    sds[i] = sd(instabilities[[i]])
+    insta_means[i] = mean(instabilities[[i]])
+    insta_sds[i] = sd(instabilities[[i]])
+    wd_means[i] = mean(wds[[i]])
+    wd_sds[i] = sd(wds[[i]])
+    #h = floor(alphas[i]*n)
   }
-  best_index = which(means == min(means))
+  scaled_wd_means = (wd_means - min(wd_means))/(max(wd_means)-min(wd_means))
+  final_score = insta_means + 0.5*mean(insta_means)*scaled_wd_means
+  best_index = which(final_score == min(final_score))
   best_alpha = alphas[best_index]
-  return(list(best_alpha=best_alpha,means=means,sds=sds,instabilities=instabilities))
+  return(list(best_alpha=best_alpha,final_score=final_score,insta_means=insta_means,insta_sds=insta_sds,
+              wd_means=wd_means,wd_sds=wd_sds,instabilities=instabilities,wds = wds))
 }

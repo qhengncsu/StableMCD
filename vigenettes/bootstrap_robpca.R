@@ -1,9 +1,11 @@
 library(rrcov)
-bootstrap_robpca <- function(x, alphas, q, B=50, classifier='depth'){
+bootstrap_robpca <- function(x, alphas, q, B=50, classifier='MD'){
   n <- nrow(x)
   instabilities = list()
+  wds = list()
   for(i in 1:length(alphas)){
     instabilities[[i]] = rep(0,B)
+    wds[[i]] = rep(0,B)
   }
   for(b in 1:B){
     index1_bootstrap = sample(1:n,n,replace=TRUE)
@@ -34,7 +36,7 @@ bootstrap_robpca <- function(x, alphas, q, B=50, classifier='depth'){
       index1 = result1$index
       index2 = result2$index
       if(classifier=='depth'){
-        depths3 = proj_depth(PCs1,PCs1_b[index1,],1,multiplier=10)
+        depths3 = proj_depth(PCs1,PCs1_b[index1,],1,multiplier=100)
         depths4 = proj_depth(PCs2,PCs2_b[index2,],1,multiplier=100)
         order1 = order(depths3,decreasing=TRUE)
         order2 = order(depths4,decreasing=TRUE)
@@ -49,20 +51,28 @@ bootstrap_robpca <- function(x, alphas, q, B=50, classifier='depth'){
       is_outliers1[order1[1:h]] = 0
       is_outliers2[order2[1:h]] = 0
       instabilities[[i]][b] = get_instability(is_outliers1,is_outliers2,h)
+      wds[[i]][b] = log(wasserstein_distance(result1$muhat,result1$Sigmahat,result2$muhat,result2$Sigmahat))
     }
     if(b%%10==0){
       cat(sprintf("Bootstrap pair %d completed!\n", b))
     }
   }
-  means = rep(0,length(alphas))
-  sds = rep(0,length(alphas))
+  insta_means = rep(0,length(alphas))
+  insta_sds = rep(0,length(alphas))
+  wd_means = rep(0,length(alphas))
+  wd_sds = rep(0,length(alphas))
   for(i in 1:length(alphas)){
     order = order(instabilities[[i]])
-    means[i] = mean(instabilities[[i]])
-    h = floor(alphas[i]*n)
-    sds[i] = sd(instabilities[[i]])
+    insta_means[i] = mean(instabilities[[i]])
+    insta_sds[i] = sd(instabilities[[i]])
+    wd_means[i] = mean(wds[[i]])
+    wd_sds[i] = sd(wds[[i]])
+    #h = floor(alphas[i]*n)
   }
-  best_index = which(means == min(means))
+  scaled_wd_means = (wd_means - min(wd_means))/(max(wd_means)-min(wd_means))
+  final_score = insta_means + 0.5*median(insta_means)*scaled_wd_means
+  best_index = which(final_score == min(final_score))
   best_alpha = alphas[best_index]
-  return(list(means=means,sds=sds,best_alpha=best_alpha))
+  return(list(best_alpha=best_alpha,final_score=final_score,insta_means=insta_means,insta_sds=insta_sds,
+              wd_means=wd_means,wd_sds=wd_sds,instabilities=instabilities,wds = wds))
 }
