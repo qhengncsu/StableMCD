@@ -11,14 +11,14 @@ x = as.matrix(banknote[101:200,2:7])
 alphas = seq(0.5,0.99,0.01)
 h = alphas*100
 ptm <- proc.time()
-bootstrap_result = bootstrap_mcd(x,seq(0.5,0.99,0.01),B=50,classifier='MD')
+bootstrap_result = bootstrap_mcd(x,seq(0.5,0.99,0.01),B=100,classifier='MD')
 time <- proc.time() - ptm
 
 data = data.frame(alpha = alphas,insta_mean = bootstrap_result$insta_means,
                   insta_sd =bootstrap_result$insta_sds,
                   wd_mean = bootstrap_result$wd_means,
                   wd_sd = bootstrap_result$wd_sds,
-                  final_score = bootstrap_result$final_score)
+                  iim = bootstrap_result$iim)
 
 plot1 = ggplot(data,aes(x=h))+
   geom_point(aes(y=insta_mean,color="bootstrap"))+
@@ -30,12 +30,12 @@ plot1 = ggplot(data,aes(x=h))+
   theme(plot.title = element_text(hjust = 0.5), legend.position = "none", text = element_text(size=8))
 
 plot2 = ggplot(data,aes(x=h))+
-  geom_point(aes(y=final_score,color="bootstrap"))+
-  geom_line(aes(y=final_score,color="bootstrap"))+
+  geom_point(aes(y=iim,color="bootstrap"))+
+  geom_line(aes(y=iim,color="bootstrap"))+
   #geom_errorbar(aes(ymin=insta_mean-insta_sd,ymax=insta_mean+insta_sd,color="bootstrap"),width=0.01)+
   scale_color_manual("Method",breaks=c("bootstrap"),
                      values=c("navyblue"))+
-  labs(y = "Final Score", x = "h", title="Final Score on Banknote Data")+theme_bw()+
+  labs(y = "IIM", x = "h", title="Integrated Instability Metric on Banknote Data")+theme_bw()+
   theme(plot.title = element_text(hjust = 0.5), legend.position = "none", text = element_text(size=8))
 
 

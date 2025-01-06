@@ -24,9 +24,9 @@ plot1 = ggplot()+ geom_point(data=data1, aes(x=X1,y=X2,color=ER),size=2) +
   scale_color_manual(breaks=c("Positive","Negative"),
                      values=c("blue","red"))
 
-data2 = data.frame(h=seq(0.5,0.975,by=0.025),mean_q2 = bootstrap_result1$final_score,
-                   mean_q5 = bootstrap_result2$final_score,
-                   mean_q10 = bootstrap_result3$final_score)
+data2 = data.frame(h=seq(0.5,0.975,by=0.025),mean_q2 = bootstrap_result1$iim,
+                   mean_q5 = bootstrap_result2$iim,
+                   mean_q10 = bootstrap_result3$iim)
 
 plot2  = ggplot(data2,aes(x=h))+
   geom_point(aes(y=mean_q2,color="q=2"))+
@@ -40,7 +40,7 @@ plot2  = ggplot(data2,aes(x=h))+
   geom_line(aes(y=mean_q10,color="q=10"))+
   scale_color_manual("Number of PCs",breaks=c("q=2","q=5","q=10"),
                      values=c("navyblue","darkgreen","darkred"))+
-  labs(y = "Final Score", x = "h/n", title="Final Score on Breast Cancer Data")+theme_bw()+
+  labs(y = "IIM", x = "h/n", title="IIM on Breast Cancer Data")+theme_bw()+
   theme(plot.title = element_text(hjust = 0.5), legend.position = "None", text = element_text(size=12))
 
 result3 = mcd(PCs,0.75)

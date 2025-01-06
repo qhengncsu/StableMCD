@@ -1,13 +1,3 @@
-This repo implements the methods described in the following two publications:
-
-1. A Stability Framework for Parameter Selection in the Minimum Covariance Determinant Problem
-
-Qiang Heng, Hui Shen, Kenneth Lange (2024+)
-
-2. Bootstrap Estimation of the Proportion of Outliers In Robust Regression
-
-Qiang Heng, Kenneth Lange (2024+).
-
 ## Installation
 To install the package, the right development tools must be in place. Specifically,
 Windows users need [RTools](https://cran.r-project.org/bin/windows/Rtools/), while
@@ -29,7 +19,7 @@ x1[1:(n * 0.2)] = rnorm(n * 0.2, 10)
 x2 = rnorm(n)
 x = cbind(x1,x2)
 
-result = bootstrap_mcd(x,seq(0.5,0.975,by=0.025),B=200,classifier="MD")
+result = bootstrap_mcd(x,seq(0.5,0.975,by=0.025),B=50,classifier="MD")
 plot(seq(0.5,0.975,by=0.025), result$means, type = "b")
 
 # Masking outliers
@@ -40,10 +30,11 @@ x1[(n * 0.15 + 1):(n * 0.15 + n * 0.05)] = rnorm(n * 0.05, 10^3)
 x2 = rnorm(n)
 x = cbind(x1,x2)
 
-result = bootstrap_mcd(x,seq(0.5,0.975,by=0.025),B=200,classifier="MD")
-plot(seq(0.5,0.975,by=0.025), result$means, type = "b")
+result = bootstrap_mcd(x,seq(0.5,0.975,by=0.025),B=50,classifier="MD")
+plot(seq(0.5,0.975,by=0.025), result$iim, type = "b")
 ```
-Run vigenettes/example_simulation_mcd.R to produce a panel of Figure 2.
+Run vigenettes/paths_2D.R to produce Figure 1 in the paper.
+Run vigenettes/paths_mcd.R to produce Figure 2 in the paper.
 
 
 ### Real Data
@@ -56,7 +47,7 @@ readily available on CRAN.
 take about 5 minutes).
 4. Run vigenettes/glass_robpca.R to produce Figure 6 for the Glass Data.
 5. Run vigenettes/breast.R to produce Figure 7 for the Breast Cancer Data (warning, 
-it will take about 20 minutes).
+it will take about 25 minutes).
 
 
 ## Quick Start for "Bootstrap Estimation of the Proportion of Outliers In Robust Regression"

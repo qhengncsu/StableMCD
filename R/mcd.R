@@ -181,14 +181,16 @@ bootstrap_mcd <- function(x, alphas, B=50, classifier='MD'){
     order = order(instabilities[[i]])
     insta_means[i] = mean(instabilities[[i]])
     insta_sds[i] = sd(instabilities[[i]])
-    wd_means[i] = mean(wds[[i]])
+    wd_means[i] = median(wds[[i]])
     wd_sds[i] = sd(wds[[i]])
     #h = floor(alphas[i]*n)
   }
   scaled_wd_means = (wd_means - min(wd_means))/(max(wd_means)-min(wd_means))
-  final_score = insta_means + 0.5*mean(insta_means)*scaled_wd_means
-  best_index = which(final_score == min(final_score))
+  #scaled_instas = (insta_means - min(insta_means))/(max(insta_means)-min(insta_means))
+  iim = insta_means + 0.5*mean(insta_means)*scaled_wd_means
+  #final_score = scaled_wd_means+scaled_instas
+  best_index = which(iim == min(iim))
   best_alpha = alphas[best_index]
-  return(list(best_alpha=best_alpha,final_score=final_score,insta_means=insta_means,insta_sds=insta_sds,
+  return(list(best_alpha=best_alpha,iim=iim,insta_means=insta_means,insta_sds=insta_sds,
               wd_means=wd_means,wd_sds=wd_sds,instabilities=instabilities,wds = wds))
 }
