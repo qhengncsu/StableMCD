@@ -1,5 +1,3 @@
-library(DetMCD)
-library(ddalpha)
 library(MASS)
 library(StableMCD)
 library(ggplot2)

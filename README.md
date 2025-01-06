@@ -20,7 +20,7 @@ x2 = rnorm(n)
 x = cbind(x1,x2)
 
 result = bootstrap_mcd(x,seq(0.5,0.975,by=0.025),B=50,classifier="MD")
-plot(seq(0.5,0.975,by=0.025), result$means, type = "b")
+plot(seq(0.5,0.975,by=0.025), result$iim, type = "b")
 
 # Masking outliers
 n = 1000
@@ -34,6 +34,7 @@ result = bootstrap_mcd(x,seq(0.5,0.975,by=0.025),B=50,classifier="MD")
 plot(seq(0.5,0.975,by=0.025), result$iim, type = "b")
 ```
 Run vigenettes/paths_2D.R to produce Figure 1 in the paper.
+
 Run vigenettes/paths_mcd.R to produce Figure 2 in the paper.
 
 
