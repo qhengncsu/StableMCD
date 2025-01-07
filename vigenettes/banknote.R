@@ -5,7 +5,7 @@ library(ddalpha)
 library(ggplot2)
 library(gridExtra)
 
-set.seed(12)
+set.seed(1)
 data(banknote)
 x = as.matrix(banknote[101:200,2:7])
 alphas = seq(0.5,0.99,0.01)

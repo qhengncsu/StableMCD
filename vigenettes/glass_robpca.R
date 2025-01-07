@@ -52,7 +52,7 @@ robpca3 = PcaHubert(glass,k=3,alpha=0.5)
 SDs = robpca3$sd
 ODs = robpca3$od
 
-cutoff.insta = sort(SDs)[floor(0.6*180)]
+cutoff.insta = sort(SDs)[floor(0.625*180)]
 
 data3 = data.frame(X1 = SDs, X2=ODs)
 plot3 = ggplot()+ geom_point(data=data3, aes(x=X1,y=X2),size=3, color='blue',shape=1) + 
