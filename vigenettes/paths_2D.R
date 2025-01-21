@@ -39,7 +39,7 @@ plot2 = ggplot(data1,aes(x=alphas))+
   geom_vline(data=data1, aes(xintercept=0.9),color='red')+
   scale_color_manual("Method",breaks=c("bootstrap"),
                      values=c("navyblue"))+
-  labs(y = "Log WD", x = "h/n", title="Setting 1 / Log Wasserstein Distance")+theme_bw()+
+  labs(y = "WD", x = "h/n", title="Setting 1 / Wasserstein Distance")+theme_bw()+
   theme(plot.title = element_text(hjust = 0.5), legend.position = "none", text = element_text(size=8))
 
 plot3 = ggplot(data1,aes(x=alphas))+
@@ -84,7 +84,7 @@ plot5 = ggplot(data2,aes(x=alphas))+
   geom_vline(data=data1, aes(xintercept=0.85),color='red')+
   scale_color_manual("Method",breaks=c("bootstrap"),
                      values=c("navyblue"))+
-  labs(y = "Log WD", x = "h/n", title="Setting 2 / Log Wasserstein Distance")+theme_bw()+
+  labs(y = "WD", x = "h/n", title="Setting 2 / Wasserstein Distance")+theme_bw()+
   theme(plot.title = element_text(hjust = 0.5), legend.position = "none", text = element_text(size=8))
 
 plot6 = ggplot(data2,aes(x=alphas))+
@@ -129,7 +129,7 @@ plot8 = ggplot(data3,aes(x=alphas))+
   geom_vline(data=data1, aes(xintercept=0.7),color='red')+
   scale_color_manual("Method",breaks=c("bootstrap"),
                      values=c("navyblue"))+
-  labs(y = "Log WD", x = "h/n", title="Setting 3 / Log Wasserstein Distance")+theme_bw()+
+  labs(y = "WD", x = "h/n", title="Setting 3 / Wasserstein Distance")+theme_bw()+
   theme(plot.title = element_text(hjust = 0.5), legend.position = "none", text = element_text(size=8))
 
 plot9 = ggplot(data3,aes(x=alphas))+
@@ -172,7 +172,7 @@ plot11 = ggplot(data4,aes(x=alphas))+
   #geom_vline(data=data1, aes(xintercept=0.7),color='red')+
   scale_color_manual("Method",breaks=c("bootstrap"),
                      values=c("navyblue"))+
-  labs(y = "Log WD", x = "h/n", title="Setting 4 / Log Wasserstein Distance")+theme_bw()+
+  labs(y = "WD", x = "h/n", title="Setting 4 / Wasserstein Distance")+theme_bw()+
   theme(plot.title = element_text(hjust = 0.5), legend.position = "none", text = element_text(size=8))
 
 plot12 = ggplot(data4,aes(x=alphas))+

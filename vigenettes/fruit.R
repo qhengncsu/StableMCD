@@ -5,7 +5,7 @@ library(rrcov)
 
 data(fruit)
 x = data.matrix(fruit[,2:257])
-
+set.seed(1)
 ptm <- proc.time()
 result = bootstrap_mcd(x,seq(0.5,0.975,by=0.025),B=50,classifier="MD")
 time <- proc.time() - ptm

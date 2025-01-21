@@ -166,7 +166,7 @@ bootstrap_mcd <- function(x, alphas, B=50, classifier='MD', sd_ratio=3){
       is_outliers2 = rep(1,n)
       is_outliers1[order1[1:h]] = 0
       is_outliers2[order2[1:h]] = 0
-      instabilities[[i]][b] = get_instability(is_outliers1,is_outliers2,h)
+      instabilities[[i]][b] = log(1+get_instability(is_outliers1,is_outliers2,h))
       wds[[i]][b] = log(1+wasserstein_distance(result1$muhat,result1$Sigmahat,result2$muhat,result2$Sigmahat))
     }
     if(b%%10==0){
@@ -187,11 +187,10 @@ bootstrap_mcd <- function(x, alphas, B=50, classifier='MD', sd_ratio=3){
   }
   #scaled_wd_means = (wd_means - min(wd_means))/(max(wd_means)-min(wd_means))
   #scaled_instas = (insta_means - min(insta_means))/(max(insta_means)-min(insta_means))
-  log_instas = log(insta_means+1)
-  sd_instas = sd(log_instas)
+  sd_instas = sd(insta_means)
   sd_wd = sd(wd_means)
   beta = sd_instas/(sd_instas+sd_ratio*sd_wd)
-  iim = (1-beta)*log_instas + beta*(wd_means - min(wd_means))
+  iim = (1-beta)*insta_means + beta*(wd_means - min(wd_means))
   #final_score = scaled_wd_means+scaled_instas
   best_index = which(iim == min(iim))
   best_alpha = alphas[best_index]
