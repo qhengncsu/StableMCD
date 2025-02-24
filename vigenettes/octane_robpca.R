@@ -14,9 +14,9 @@ bootstrap_result2 = bootstrap_robpca(octane,alphas,4,B=100)
 bootstrap_result3 = bootstrap_robpca(octane,alphas,6,B=100)
 time <- proc.time() - ptm
 
-data1 = data.frame(h=seq(21,38),mean_q2 = bootstrap_result1$insta_means,sd_q2 = bootstrap_result1$insta_sds,
-                   mean_q4 = bootstrap_result2$insta_means,sd_q4 = bootstrap_result2$insta_sds,
-                   mean_q6 = bootstrap_result3$insta_means,sd_q6 = bootstrap_result3$insta_sds)
+data1 = data.frame(h=seq(21,38),mean_q2 = bootstrap_result1$iim,sd_q2 = bootstrap_result1$insta_sds,
+                   mean_q4 = bootstrap_result2$iim,sd_q4 = bootstrap_result2$insta_sds,
+                   mean_q6 = bootstrap_result3$iim,sd_q6 = bootstrap_result3$insta_sds)
 
 plot1  = ggplot(data1,aes(x=h))+
   geom_point(aes(y=mean_q2,color="q=2"))+
@@ -31,9 +31,9 @@ plot1  = ggplot(data1,aes(x=h))+
   theme(plot.title = element_text(hjust = 0.5), legend.position = "None", text = element_text(size=12))
 
 
-data2 = data.frame(h=seq(21,38),mean_q2 = bootstrap_result1$final_score,sd_q2 = bootstrap_result1$insta_sds,
-                   mean_q4 = bootstrap_result2$final_score,sd_q4 = bootstrap_result2$insta_sds,
-                   mean_q6 = bootstrap_result3$final_score,sd_q6 = bootstrap_result3$insta_sds)
+data2 = data.frame(h=seq(21,38),mean_q2 = bootstrap_result1$iim,sd_q2 = bootstrap_result1$insta_sds,
+                   mean_q4 = bootstrap_result2$iim,sd_q4 = bootstrap_result2$insta_sds,
+                   mean_q6 = bootstrap_result3$iim,sd_q6 = bootstrap_result3$insta_sds)
 
 plot2  = ggplot(data2,aes(x=h))+
   geom_point(aes(y=mean_q2,color="q=2"))+
@@ -44,7 +44,7 @@ plot2  = ggplot(data2,aes(x=h))+
   geom_line(aes(y=mean_q6,color="q=6"))+
   scale_color_manual("Number of PCs",breaks=c("q=2","q=4","q=6"),
                      values=c("navyblue","darkred","darkgreen"))+
-  labs(y = "Instability", x = "h", title="Final Score on Octane Data")+theme_bw()+
+  labs(y = "Instability", x = "h", title="IIM on Octane Data")+theme_bw()+
   theme(plot.title = element_text(hjust = 0.5), legend.position = "None", text = element_text(size=12))
 
 
