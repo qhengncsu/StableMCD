@@ -32,13 +32,27 @@ concentration <- function(x,index,h,max_iter=100,verbose=T){
   return(list(index=index,muhat=muhat,Sigmahat=Sigmahat))
 }
 
-mcd <- function(x,alpha,verbose=T){
+mcd <- function(x,alpha,verbose=T, reweighting=F){
   n <- nrow(x)
   h = floor(alpha*n)
   depths = proj_depth(x,x,3,multiplier=100)
   depth_order = order(depths, decreasing = TRUE)
   index = depth_order[1:h]
-  return(concentration(x,index,h,verbose=verbose))
+  res = concentration(x,index,h,verbose=verbose)
+  if(!reweighting){
+    return(res)
+  }else{
+    MD_c0 <- mahalanobis(x, res$muhat, res$Sigmahat)
+    c_s <- median(MD_c0)/qchisq(0.5, p)
+    sigma_raw <- c_s * res$Sigmahat
+    MD <- mahalanobis(x, res$muhat, sigma_raw)
+    trunc <- which(MD >= qchisq(0.975, p))
+    new_index = setdiff(res$index,trunc)
+    subset <- x[new_index,]
+    muhat <- apply(subset,2,mean)
+    Sigmahat <- cov(subset)*nrow(x)/(nrow(x)-1)
+    return(list(index=new_index,muhat=muhat,Sigmahat=Sigmahat))
+  }
 }
 
 l1_depth <- function (x, data){
@@ -179,10 +193,10 @@ bootstrap_mcd <- function(x, alphas, B=50, classifier='MD', sd_ratio=3){
   wd_sds = rep(0,length(alphas))
   for(i in 1:length(alphas)){
     order = order(instabilities[[i]])
-    insta_means[i] = mean(instabilities[[i]])
-    insta_sds[i] = sd(instabilities[[i]])
-    wd_means[i] = mean(wds[[i]])
-    wd_sds[i] = sd(wds[[i]])
+    insta_means[i] = mean(instabilities[[i]],na.rm=T)
+    insta_sds[i] = sd(instabilities[[i]],na.rm=T)
+    wd_means[i] = mean(wds[[i]],na.rm=T)
+    wd_sds[i] = sd(wds[[i]],na.rm=T)
     #h = floor(alphas[i]*n)
   }
   #scaled_wd_means = (wd_means - min(wd_means))/(max(wd_means)-min(wd_means))

@@ -76,7 +76,7 @@ y[index_opt,]<-mvrnorm(0.05*n,p11,diag(p))
 x<-y%*%G
 
 alphas = seq(0.5,0.975,by=0.025)
-bootstrap_result = bootstrap_mcd(x,seq(0.5,0.975,by=0.025),50,classifier = "MD")
+bootstrap_result = bootstrap_mcd(x,alphas,50,classifier = "MD")
 data1 = data.frame(alpha = alphas,insta_mean = bootstrap_result$insta_means,
                    insta_sd =bootstrap_result$insta_sds,
                    wd_mean = bootstrap_result$wd_means,
@@ -212,11 +212,11 @@ plot9 = ggplot(data3,aes(x=alphas))+
 
 y<-mvrnorm(n,rep(0,p),diag(p))
 index_opt<-sample(1:n,0.35*n)
-dis <- 5*(p^(1/4))
+dis <- 50*(p^(1/4))
 for (l in index_opt[1:70]){
   p11 = pvector1(rep(0,p),dis)
   y[l,] <- mvrnorm(1,p11,diag(p))}
-dis <- 50*(p^(1/4))
+dis <- 5*(p^(1/4))
 p11 <- rep(dis/sqrt(p),p)
 y[index_opt[71:140],]<-mvrnorm(0.175*n,p11,diag(p))
 x <- y%*%G

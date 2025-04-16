@@ -11,8 +11,6 @@ x1 = rnorm(1000)
 x2 = rnorm(1000)
 x1[1:100] = rnorm(100,mean=5)
 x2[1:100] = rnorm(100,mean=5)
-#x1[101:150] = rnorm(50,mean=1000)
-#x2[101:150] = rnorm(50,mean=1000)
 x = cbind(x1,x2)
 
 bootstrap_result = bootstrap_mcd(x,seq(0.5,0.975,by=0.025),50,classifier = "MD")
