@@ -37,17 +37,19 @@ Run vigenettes/paths_2D.R to produce Figure 1 in the paper.
 
 Run vigenettes/paths_mcd.R to produce Figure 2 in the paper.
 
+Run vigenettes/paths_masking.R to produce Figure 3 in the paper.
+
 
 ### Real Data
 Set working directory to "[pathofrepo]/vigenettes". The packages imported at the
 beginning of each file (other than StableMCD, which is this package) are all 
 readily available on CRAN.
-1. Run vigenettes/star_mcd.R to produce Figure 3 for the StarsCYG data.
-2. Run vigenettes/banknote.R to produce Figure 4 for the Bank Note data.
-3. Run vigenettes/fruit.R to produce Figure 5 for the Fruit data (warning, it will
+1. Run vigenettes/star_mcd.R to produce Figure 4 for the StarsCYG data.
+2. Run vigenettes/banknote.R to produce Figure 5 for the Bank Note data.
+3. Run vigenettes/fruit.R to produce Figure 6 for the Fruit data (warning, it will
 take about 5 minutes).
-4. Run vigenettes/glass_robpca.R to produce Figure 6 for the Glass Data.
-5. Run vigenettes/breast.R to produce Figure 7 for the Breast Cancer Data (warning, 
+4. Run vigenettes/glass_robpca.R to produce Figure 7 for the Glass Data.
+5. Run vigenettes/breast.R to produce Figure 8 for the Breast Cancer Data (warning, 
 it will take about 25 minutes).
 
 
